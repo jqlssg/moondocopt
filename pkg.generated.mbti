@@ -14,6 +14,8 @@ pub(all) suberror DocoptError {
   Limit(String)
   Conversion(String)
 } derive(@debug.Debug)
+pub fn DocoptError::category(Self) -> String
+pub fn DocoptError::message(Self) -> String
 pub fn DocoptError::to_repr(Self) -> @debug.Repr
 
 // Types and methods
@@ -84,6 +86,8 @@ pub fn Parser::options(Self) -> Array[OptionSpec]
 pub fn Parser::parameters(Self) -> Array[ParameterInfo] raise DocoptError
 pub fn Parser::parse(Self, Array[String], options_first? : Bool) -> Values raise DocoptError
 pub fn Parser::program(Self) -> String
+pub fn Parser::request(Self, Json) -> Json
+pub fn Parser::request_json(Self, String) -> Json
 pub fn Parser::run(Self, Array[String], help? : Bool, version? : String?, options_first? : Bool) -> Outcome raise DocoptError
 pub fn Parser::suggest(Self, String) -> Array[String] raise DocoptError
 pub fn Parser::usage(Self) -> String
