@@ -17,6 +17,15 @@ pub(all) suberror DocoptError {
 pub fn DocoptError::to_repr(Self) -> @debug.Repr
 
 // Types and methods
+pub struct Document {
+  text : String
+  usage : String
+  program : String
+  // private fields
+}
+pub fn Document::new(String) -> Self raise DocoptError
+pub fn Document::options_sections(Self) -> Array[String]
+
 pub(all) enum Value {
   Flag(Bool)
   Text(String)
