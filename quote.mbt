@@ -34,7 +34,7 @@ pub fn quote_argument(argument : String) -> String raise DocoptError {
   if safe {
     argument
   } else {
-    "'" + argument.replace(old="'", new="'\"'\"'") + "'"
+    "'" + argument.replace_all(old="'", new="'\"'\"'") + "'"
   }
 }
 

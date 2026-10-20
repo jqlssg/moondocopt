@@ -1,14 +1,19 @@
-// Derived from docopt 0.6.2 testcases.docopt (MIT); do not hand-edit.
+// Generated from docopt 0.6.2 MIT fixtures by scripts/generate_oracles.py.
 
 ///|
 test "upstream 1" {
-  assert_eq(Parser::new("Usage: prog\n\n").parse([]).to_json(), ({} : Json))
+  assert_eq(
+    Parser::new("Usage: prog\n\n").parse([], options_first=false).to_json(),
+    ({} : Json),
+  )
 }
 
 ///|
 test "upstream 2" {
   assert_true(
-    (Ok(Parser::new("Usage: prog\n\n").parse(["--xxx"])) catch { e => Err(e) })
+    (Ok(Parser::new("Usage: prog\n\n").parse(["--xxx"], options_first=false)) catch {
+      e => Err(e)
+    })
     is Err(Arguments(_)),
   )
 }
@@ -17,7 +22,7 @@ test "upstream 2" {
 test "upstream 3" {
   assert_eq(
     Parser::new("Usage: prog [options]\n\nOptions: -a  All.\n\n")
-    .parse([])
+    .parse([], options_first=false)
     .to_json(),
     ({ "-a": false } : Json),
   )
@@ -27,7 +32,7 @@ test "upstream 3" {
 test "upstream 4" {
   assert_eq(
     Parser::new("Usage: prog [options]\n\nOptions: -a  All.\n\n")
-    .parse(["-a"])
+    .parse(["-a"], options_first=false)
     .to_json(),
     ({ "-a": true } : Json),
   )
@@ -37,7 +42,10 @@ test "upstream 4" {
 test "upstream 5" {
   assert_true(
     (Ok(
-      Parser::new("Usage: prog [options]\n\nOptions: -a  All.\n\n").parse(["-x"]),
+      Parser::new("Usage: prog [options]\n\nOptions: -a  All.\n\n").parse(
+        ["-x"],
+        options_first=false,
+      ),
     ) catch {
       e => Err(e)
     })
@@ -49,7 +57,7 @@ test "upstream 5" {
 test "upstream 6" {
   assert_eq(
     Parser::new("Usage: prog [options]\n\nOptions: --all  All.\n\n")
-    .parse([])
+    .parse([], options_first=false)
     .to_json(),
     ({ "--all": false } : Json),
   )
@@ -59,7 +67,7 @@ test "upstream 6" {
 test "upstream 7" {
   assert_eq(
     Parser::new("Usage: prog [options]\n\nOptions: --all  All.\n\n")
-    .parse(["--all"])
+    .parse(["--all"], options_first=false)
     .to_json(),
     ({ "--all": true } : Json),
   )
@@ -69,9 +77,10 @@ test "upstream 7" {
 test "upstream 8" {
   assert_true(
     (Ok(
-      Parser::new("Usage: prog [options]\n\nOptions: --all  All.\n\n").parse([
-        "--xxx",
-      ]),
+      Parser::new("Usage: prog [options]\n\nOptions: --all  All.\n\n").parse(
+        ["--xxx"],
+        options_first=false,
+      ),
     ) catch {
       e => Err(e)
     })
@@ -83,7 +92,7 @@ test "upstream 8" {
 test "upstream 9" {
   assert_eq(
     Parser::new("Usage: prog [options]\n\nOptions: -v, --verbose  Verbose.\n\n")
-    .parse(["--verbose"])
+    .parse(["--verbose"], options_first=false)
     .to_json(),
     ({ "--verbose": true } : Json),
   )
@@ -93,7 +102,7 @@ test "upstream 9" {
 test "upstream 10" {
   assert_eq(
     Parser::new("Usage: prog [options]\n\nOptions: -v, --verbose  Verbose.\n\n")
-    .parse(["--ver"])
+    .parse(["--ver"], options_first=false)
     .to_json(),
     ({ "--verbose": true } : Json),
   )
@@ -103,7 +112,7 @@ test "upstream 10" {
 test "upstream 11" {
   assert_eq(
     Parser::new("Usage: prog [options]\n\nOptions: -v, --verbose  Verbose.\n\n")
-    .parse(["-v"])
+    .parse(["-v"], options_first=false)
     .to_json(),
     ({ "--verbose": true } : Json),
   )
@@ -113,7 +122,7 @@ test "upstream 11" {
 test "upstream 12" {
   assert_eq(
     Parser::new("Usage: prog [options]\n\nOptions: -p PATH\n\n")
-    .parse(["-p", "home/"])
+    .parse(["-p", "home/"], options_first=false)
     .to_json(),
     ({ "-p": "home/" } : Json),
   )
@@ -123,7 +132,7 @@ test "upstream 12" {
 test "upstream 13" {
   assert_eq(
     Parser::new("Usage: prog [options]\n\nOptions: -p PATH\n\n")
-    .parse(["-phome/"])
+    .parse(["-phome/"], options_first=false)
     .to_json(),
     ({ "-p": "home/" } : Json),
   )
@@ -133,7 +142,10 @@ test "upstream 13" {
 test "upstream 14" {
   assert_true(
     (Ok(
-      Parser::new("Usage: prog [options]\n\nOptions: -p PATH\n\n").parse(["-p"]),
+      Parser::new("Usage: prog [options]\n\nOptions: -p PATH\n\n").parse(
+        ["-p"],
+        options_first=false,
+      ),
     ) catch {
       e => Err(e)
     })
@@ -145,7 +157,7 @@ test "upstream 14" {
 test "upstream 15" {
   assert_eq(
     Parser::new("Usage: prog [options]\n\nOptions: --path <path>\n\n")
-    .parse(["--path", "home/"])
+    .parse(["--path", "home/"], options_first=false)
     .to_json(),
     ({ "--path": "home/" } : Json),
   )
@@ -155,7 +167,7 @@ test "upstream 15" {
 test "upstream 16" {
   assert_eq(
     Parser::new("Usage: prog [options]\n\nOptions: --path <path>\n\n")
-    .parse(["--path=home/"])
+    .parse(["--path=home/"], options_first=false)
     .to_json(),
     ({ "--path": "home/" } : Json),
   )
@@ -165,7 +177,7 @@ test "upstream 16" {
 test "upstream 17" {
   assert_eq(
     Parser::new("Usage: prog [options]\n\nOptions: --path <path>\n\n")
-    .parse(["--pa", "home/"])
+    .parse(["--pa", "home/"], options_first=false)
     .to_json(),
     ({ "--path": "home/" } : Json),
   )
@@ -175,7 +187,7 @@ test "upstream 17" {
 test "upstream 18" {
   assert_eq(
     Parser::new("Usage: prog [options]\n\nOptions: --path <path>\n\n")
-    .parse(["--pa=home/"])
+    .parse(["--pa=home/"], options_first=false)
     .to_json(),
     ({ "--path": "home/" } : Json),
   )
@@ -185,9 +197,10 @@ test "upstream 18" {
 test "upstream 19" {
   assert_true(
     (Ok(
-      Parser::new("Usage: prog [options]\n\nOptions: --path <path>\n\n").parse([
-        "--path",
-      ]),
+      Parser::new("Usage: prog [options]\n\nOptions: --path <path>\n\n").parse(
+        ["--path"],
+        options_first=false,
+      ),
     ) catch {
       e => Err(e)
     })
@@ -201,7 +214,7 @@ test "upstream 20" {
     Parser::new(
       "Usage: prog [options]\n\nOptions: -p PATH, --path=<path>  Path to files.\n\n",
     )
-    .parse(["-proot"])
+    .parse(["-proot"], options_first=false)
     .to_json(),
     ({ "--path": "root" } : Json),
   )
@@ -213,7 +226,7 @@ test "upstream 21" {
     Parser::new(
       "Usage: prog [options]\n\nOptions:    -p --path PATH  Path to files.\n\n",
     )
-    .parse(["-p", "root"])
+    .parse(["-p", "root"], options_first=false)
     .to_json(),
     ({ "--path": "root" } : Json),
   )
@@ -225,7 +238,7 @@ test "upstream 22" {
     Parser::new(
       "Usage: prog [options]\n\nOptions:    -p --path PATH  Path to files.\n\n",
     )
-    .parse(["--path", "root"])
+    .parse(["--path", "root"], options_first=false)
     .to_json(),
     ({ "--path": "root" } : Json),
   )
@@ -237,7 +250,7 @@ test "upstream 23" {
     Parser::new(
       "Usage: prog [options]\n\nOptions:\n -p PATH  Path to files [default: ./]\n\n",
     )
-    .parse([])
+    .parse([], options_first=false)
     .to_json(),
     ({ "-p": "./" } : Json),
   )
@@ -249,7 +262,7 @@ test "upstream 24" {
     Parser::new(
       "Usage: prog [options]\n\nOptions:\n -p PATH  Path to files [default: ./]\n\n",
     )
-    .parse(["-phome"])
+    .parse(["-phome"], options_first=false)
     .to_json(),
     ({ "-p": "home" } : Json),
   )
@@ -261,7 +274,7 @@ test "upstream 25" {
     Parser::new(
       "UsAgE: prog [options]\n\nOpTiOnS: --path=<files>  Path to files\n                [dEfAuLt: /root]\n\n",
     )
-    .parse([])
+    .parse([], options_first=false)
     .to_json(),
     ({ "--path": "/root" } : Json),
   )
@@ -273,7 +286,7 @@ test "upstream 26" {
     Parser::new(
       "UsAgE: prog [options]\n\nOpTiOnS: --path=<files>  Path to files\n                [dEfAuLt: /root]\n\n",
     )
-    .parse(["--path=home"])
+    .parse(["--path=home"], options_first=false)
     .to_json(),
     ({ "--path": "home" } : Json),
   )
@@ -285,7 +298,7 @@ test "upstream 27" {
     Parser::new(
       "usage: prog [options]\n\noptions:\n    -a        Add\n    -r        Remote\n    -m <msg>  Message\n\n",
     )
-    .parse(["-a", "-r", "-m", "Hello"])
+    .parse(["-a", "-r", "-m", "Hello"], options_first=false)
     .to_json(),
     ({ "-a": true, "-r": true, "-m": "Hello" } : Json),
   )
@@ -297,7 +310,7 @@ test "upstream 28" {
     Parser::new(
       "usage: prog [options]\n\noptions:\n    -a        Add\n    -r        Remote\n    -m <msg>  Message\n\n",
     )
-    .parse(["-armyourass"])
+    .parse(["-armyourass"], options_first=false)
     .to_json(),
     ({ "-a": true, "-r": true, "-m": "yourass" } : Json),
   )
@@ -309,7 +322,7 @@ test "upstream 29" {
     Parser::new(
       "usage: prog [options]\n\noptions:\n    -a        Add\n    -r        Remote\n    -m <msg>  Message\n\n",
     )
-    .parse(["-a", "-r"])
+    .parse(["-a", "-r"], options_first=false)
     .to_json(),
     ({ "-a": true, "-r": true, "-m": null } : Json),
   )
@@ -321,7 +334,7 @@ test "upstream 30" {
     Parser::new(
       "Usage: prog [options]\n\nOptions: --version\n         --verbose\n\n",
     )
-    .parse(["--version"])
+    .parse(["--version"], options_first=false)
     .to_json(),
     ({ "--version": true, "--verbose": false } : Json),
   )
@@ -333,7 +346,7 @@ test "upstream 31" {
     Parser::new(
       "Usage: prog [options]\n\nOptions: --version\n         --verbose\n\n",
     )
-    .parse(["--verbose"])
+    .parse(["--verbose"], options_first=false)
     .to_json(),
     ({ "--version": false, "--verbose": true } : Json),
   )
@@ -345,7 +358,7 @@ test "upstream 32" {
     (Ok(
       Parser::new(
         "Usage: prog [options]\n\nOptions: --version\n         --verbose\n\n",
-      ).parse(["--ver"]),
+      ).parse(["--ver"], options_first=false),
     ) catch {
       e => Err(e)
     })
@@ -359,7 +372,7 @@ test "upstream 33" {
     Parser::new(
       "Usage: prog [options]\n\nOptions: --version\n         --verbose\n\n",
     )
-    .parse(["--verb"])
+    .parse(["--verb"], options_first=false)
     .to_json(),
     ({ "--version": false, "--verbose": true } : Json),
   )
@@ -371,7 +384,7 @@ test "upstream 34" {
     Parser::new(
       "usage: prog [-a -r -m <msg>]\n\noptions:\n -a        Add\n -r        Remote\n -m <msg>  Message\n\n",
     )
-    .parse(["-armyourass"])
+    .parse(["-armyourass"], options_first=false)
     .to_json(),
     ({ "-a": true, "-r": true, "-m": "yourass" } : Json),
   )
@@ -383,7 +396,7 @@ test "upstream 35" {
     Parser::new(
       "usage: prog [-armmsg]\n\noptions: -a        Add\n         -r        Remote\n         -m <msg>  Message\n\n",
     )
-    .parse(["-a", "-r", "-m", "Hello"])
+    .parse(["-a", "-r", "-m", "Hello"], options_first=false)
     .to_json(),
     ({ "-a": true, "-r": true, "-m": "Hello" } : Json),
   )
@@ -393,7 +406,7 @@ test "upstream 35" {
 test "upstream 36" {
   assert_eq(
     Parser::new("usage: prog -a -b\n\noptions:\n -a\n -b\n\n")
-    .parse(["-a", "-b"])
+    .parse(["-a", "-b"], options_first=false)
     .to_json(),
     ({ "-a": true, "-b": true } : Json),
   )
@@ -403,7 +416,7 @@ test "upstream 36" {
 test "upstream 37" {
   assert_eq(
     Parser::new("usage: prog -a -b\n\noptions:\n -a\n -b\n\n")
-    .parse(["-b", "-a"])
+    .parse(["-b", "-a"], options_first=false)
     .to_json(),
     ({ "-a": true, "-b": true } : Json),
   )
@@ -413,7 +426,10 @@ test "upstream 37" {
 test "upstream 38" {
   assert_true(
     (Ok(
-      Parser::new("usage: prog -a -b\n\noptions:\n -a\n -b\n\n").parse(["-a"]),
+      Parser::new("usage: prog -a -b\n\noptions:\n -a\n -b\n\n").parse(
+        ["-a"],
+        options_first=false,
+      ),
     ) catch {
       e => Err(e)
     })
@@ -424,7 +440,12 @@ test "upstream 38" {
 ///|
 test "upstream 39" {
   assert_true(
-    (Ok(Parser::new("usage: prog -a -b\n\noptions:\n -a\n -b\n\n").parse([])) catch {
+    (Ok(
+      Parser::new("usage: prog -a -b\n\noptions:\n -a\n -b\n\n").parse(
+        [],
+        options_first=false,
+      ),
+    ) catch {
       e => Err(e)
     })
     is Err(Arguments(_)),
@@ -435,7 +456,7 @@ test "upstream 39" {
 test "upstream 40" {
   assert_eq(
     Parser::new("usage: prog (-a -b)\n\noptions: -a\n         -b\n\n")
-    .parse(["-a", "-b"])
+    .parse(["-a", "-b"], options_first=false)
     .to_json(),
     ({ "-a": true, "-b": true } : Json),
   )
@@ -445,7 +466,7 @@ test "upstream 40" {
 test "upstream 41" {
   assert_eq(
     Parser::new("usage: prog (-a -b)\n\noptions: -a\n         -b\n\n")
-    .parse(["-b", "-a"])
+    .parse(["-b", "-a"], options_first=false)
     .to_json(),
     ({ "-a": true, "-b": true } : Json),
   )
@@ -455,9 +476,10 @@ test "upstream 41" {
 test "upstream 42" {
   assert_true(
     (Ok(
-      Parser::new("usage: prog (-a -b)\n\noptions: -a\n         -b\n\n").parse([
-        "-a",
-      ]),
+      Parser::new("usage: prog (-a -b)\n\noptions: -a\n         -b\n\n").parse(
+        ["-a"],
+        options_first=false,
+      ),
     ) catch {
       e => Err(e)
     })
@@ -469,7 +491,10 @@ test "upstream 42" {
 test "upstream 43" {
   assert_true(
     (Ok(
-      Parser::new("usage: prog (-a -b)\n\noptions: -a\n         -b\n\n").parse([]),
+      Parser::new("usage: prog (-a -b)\n\noptions: -a\n         -b\n\n").parse(
+        [],
+        options_first=false,
+      ),
     ) catch {
       e => Err(e)
     })
@@ -481,7 +506,7 @@ test "upstream 43" {
 test "upstream 44" {
   assert_eq(
     Parser::new("usage: prog [-a] -b\n\noptions: -a\n -b\n\n")
-    .parse(["-a", "-b"])
+    .parse(["-a", "-b"], options_first=false)
     .to_json(),
     ({ "-a": true, "-b": true } : Json),
   )
@@ -491,7 +516,7 @@ test "upstream 44" {
 test "upstream 45" {
   assert_eq(
     Parser::new("usage: prog [-a] -b\n\noptions: -a\n -b\n\n")
-    .parse(["-b", "-a"])
+    .parse(["-b", "-a"], options_first=false)
     .to_json(),
     ({ "-a": true, "-b": true } : Json),
   )
@@ -501,7 +526,10 @@ test "upstream 45" {
 test "upstream 46" {
   assert_true(
     (Ok(
-      Parser::new("usage: prog [-a] -b\n\noptions: -a\n -b\n\n").parse(["-a"]),
+      Parser::new("usage: prog [-a] -b\n\noptions: -a\n -b\n\n").parse(
+        ["-a"],
+        options_first=false,
+      ),
     ) catch {
       e => Err(e)
     })
@@ -513,7 +541,7 @@ test "upstream 46" {
 test "upstream 47" {
   assert_eq(
     Parser::new("usage: prog [-a] -b\n\noptions: -a\n -b\n\n")
-    .parse(["-b"])
+    .parse(["-b"], options_first=false)
     .to_json(),
     ({ "-a": false, "-b": true } : Json),
   )
@@ -522,7 +550,12 @@ test "upstream 47" {
 ///|
 test "upstream 48" {
   assert_true(
-    (Ok(Parser::new("usage: prog [-a] -b\n\noptions: -a\n -b\n\n").parse([])) catch {
+    (Ok(
+      Parser::new("usage: prog [-a] -b\n\noptions: -a\n -b\n\n").parse(
+        [],
+        options_first=false,
+      ),
+    ) catch {
       e => Err(e)
     })
     is Err(Arguments(_)),
@@ -533,7 +566,7 @@ test "upstream 48" {
 test "upstream 49" {
   assert_eq(
     Parser::new("usage: prog [(-a -b)]\n\noptions: -a\n         -b\n\n")
-    .parse(["-a", "-b"])
+    .parse(["-a", "-b"], options_first=false)
     .to_json(),
     ({ "-a": true, "-b": true } : Json),
   )
@@ -543,7 +576,7 @@ test "upstream 49" {
 test "upstream 50" {
   assert_eq(
     Parser::new("usage: prog [(-a -b)]\n\noptions: -a\n         -b\n\n")
-    .parse(["-b", "-a"])
+    .parse(["-b", "-a"], options_first=false)
     .to_json(),
     ({ "-a": true, "-b": true } : Json),
   )
@@ -553,9 +586,9 @@ test "upstream 50" {
 test "upstream 51" {
   assert_true(
     (Ok(
-      Parser::new("usage: prog [(-a -b)]\n\noptions: -a\n         -b\n\n").parse([
-          "-a",
-        ],
+      Parser::new("usage: prog [(-a -b)]\n\noptions: -a\n         -b\n\n").parse(
+        ["-a"],
+        options_first=false,
       ),
     ) catch {
       e => Err(e)
@@ -568,9 +601,9 @@ test "upstream 51" {
 test "upstream 52" {
   assert_true(
     (Ok(
-      Parser::new("usage: prog [(-a -b)]\n\noptions: -a\n         -b\n\n").parse([
-          "-b",
-        ],
+      Parser::new("usage: prog [(-a -b)]\n\noptions: -a\n         -b\n\n").parse(
+        ["-b"],
+        options_first=false,
       ),
     ) catch {
       e => Err(e)
@@ -583,7 +616,7 @@ test "upstream 52" {
 test "upstream 53" {
   assert_eq(
     Parser::new("usage: prog [(-a -b)]\n\noptions: -a\n         -b\n\n")
-    .parse([])
+    .parse([], options_first=false)
     .to_json(),
     ({ "-a": false, "-b": false } : Json),
   )
@@ -593,9 +626,10 @@ test "upstream 53" {
 test "upstream 54" {
   assert_true(
     (Ok(
-      Parser::new("usage: prog (-a|-b)\n\noptions: -a\n         -b\n\n").parse([
-        "-a", "-b",
-      ]),
+      Parser::new("usage: prog (-a|-b)\n\noptions: -a\n         -b\n\n").parse(
+        ["-a", "-b"],
+        options_first=false,
+      ),
     ) catch {
       e => Err(e)
     })
@@ -607,7 +641,10 @@ test "upstream 54" {
 test "upstream 55" {
   assert_true(
     (Ok(
-      Parser::new("usage: prog (-a|-b)\n\noptions: -a\n         -b\n\n").parse([]),
+      Parser::new("usage: prog (-a|-b)\n\noptions: -a\n         -b\n\n").parse(
+        [],
+        options_first=false,
+      ),
     ) catch {
       e => Err(e)
     })
@@ -619,7 +656,7 @@ test "upstream 55" {
 test "upstream 56" {
   assert_eq(
     Parser::new("usage: prog (-a|-b)\n\noptions: -a\n         -b\n\n")
-    .parse(["-a"])
+    .parse(["-a"], options_first=false)
     .to_json(),
     ({ "-a": true, "-b": false } : Json),
   )
@@ -629,7 +666,7 @@ test "upstream 56" {
 test "upstream 57" {
   assert_eq(
     Parser::new("usage: prog (-a|-b)\n\noptions: -a\n         -b\n\n")
-    .parse(["-b"])
+    .parse(["-b"], options_first=false)
     .to_json(),
     ({ "-a": false, "-b": true } : Json),
   )
@@ -639,9 +676,9 @@ test "upstream 57" {
 test "upstream 58" {
   assert_true(
     (Ok(
-      Parser::new("usage: prog [ -a | -b ]\n\noptions: -a\n         -b\n\n").parse([
-          "-a", "-b",
-        ],
+      Parser::new("usage: prog [ -a | -b ]\n\noptions: -a\n         -b\n\n").parse(
+        ["-a", "-b"],
+        options_first=false,
       ),
     ) catch {
       e => Err(e)
@@ -654,7 +691,7 @@ test "upstream 58" {
 test "upstream 59" {
   assert_eq(
     Parser::new("usage: prog [ -a | -b ]\n\noptions: -a\n         -b\n\n")
-    .parse([])
+    .parse([], options_first=false)
     .to_json(),
     ({ "-a": false, "-b": false } : Json),
   )
@@ -664,7 +701,7 @@ test "upstream 59" {
 test "upstream 60" {
   assert_eq(
     Parser::new("usage: prog [ -a | -b ]\n\noptions: -a\n         -b\n\n")
-    .parse(["-a"])
+    .parse(["-a"], options_first=false)
     .to_json(),
     ({ "-a": true, "-b": false } : Json),
   )
@@ -674,7 +711,7 @@ test "upstream 60" {
 test "upstream 61" {
   assert_eq(
     Parser::new("usage: prog [ -a | -b ]\n\noptions: -a\n         -b\n\n")
-    .parse(["-b"])
+    .parse(["-b"], options_first=false)
     .to_json(),
     ({ "-a": false, "-b": true } : Json),
   )
@@ -683,7 +720,9 @@ test "upstream 61" {
 ///|
 test "upstream 62" {
   assert_eq(
-    Parser::new("usage: prog <arg>").parse(["10"]).to_json(),
+    Parser::new("usage: prog <arg>")
+    .parse(["10"], options_first=false)
+    .to_json(),
     ({ "<arg>": "10" } : Json),
   )
 }
@@ -691,7 +730,9 @@ test "upstream 62" {
 ///|
 test "upstream 63" {
   assert_true(
-    (Ok(Parser::new("usage: prog <arg>").parse(["10", "20"])) catch {
+    (Ok(
+      Parser::new("usage: prog <arg>").parse(["10", "20"], options_first=false),
+    ) catch {
       e => Err(e)
     })
     is Err(Arguments(_)),
@@ -701,7 +742,9 @@ test "upstream 63" {
 ///|
 test "upstream 64" {
   assert_true(
-    (Ok(Parser::new("usage: prog <arg>").parse([])) catch { e => Err(e) })
+    (Ok(Parser::new("usage: prog <arg>").parse([], options_first=false)) catch {
+      e => Err(e)
+    })
     is Err(Arguments(_)),
   )
 }
@@ -709,7 +752,9 @@ test "upstream 64" {
 ///|
 test "upstream 65" {
   assert_eq(
-    Parser::new("usage: prog [<arg>]").parse(["10"]).to_json(),
+    Parser::new("usage: prog [<arg>]")
+    .parse(["10"], options_first=false)
+    .to_json(),
     ({ "<arg>": "10" } : Json),
   )
 }
@@ -717,7 +762,12 @@ test "upstream 65" {
 ///|
 test "upstream 66" {
   assert_true(
-    (Ok(Parser::new("usage: prog [<arg>]").parse(["10", "20"])) catch {
+    (Ok(
+      Parser::new("usage: prog [<arg>]").parse(
+        ["10", "20"],
+        options_first=false,
+      ),
+    ) catch {
       e => Err(e)
     })
     is Err(Arguments(_)),
@@ -727,7 +777,7 @@ test "upstream 66" {
 ///|
 test "upstream 67" {
   assert_eq(
-    Parser::new("usage: prog [<arg>]").parse([]).to_json(),
+    Parser::new("usage: prog [<arg>]").parse([], options_first=false).to_json(),
     ({ "<arg>": null } : Json),
   )
 }
@@ -736,7 +786,7 @@ test "upstream 67" {
 test "upstream 68" {
   assert_eq(
     Parser::new("usage: prog <kind> <name> <type>")
-    .parse(["10", "20", "40"])
+    .parse(["10", "20", "40"], options_first=false)
     .to_json(),
     ({ "<kind>": "10", "<name>": "20", "<type>": "40" } : Json),
   )
@@ -745,7 +795,12 @@ test "upstream 68" {
 ///|
 test "upstream 69" {
   assert_true(
-    (Ok(Parser::new("usage: prog <kind> <name> <type>").parse(["10", "20"])) catch {
+    (Ok(
+      Parser::new("usage: prog <kind> <name> <type>").parse(
+        ["10", "20"],
+        options_first=false,
+      ),
+    ) catch {
       e => Err(e)
     })
     is Err(Arguments(_)),
@@ -755,7 +810,12 @@ test "upstream 69" {
 ///|
 test "upstream 70" {
   assert_true(
-    (Ok(Parser::new("usage: prog <kind> <name> <type>").parse([])) catch {
+    (Ok(
+      Parser::new("usage: prog <kind> <name> <type>").parse(
+        [],
+        options_first=false,
+      ),
+    ) catch {
       e => Err(e)
     })
     is Err(Arguments(_)),
@@ -766,7 +826,7 @@ test "upstream 70" {
 test "upstream 71" {
   assert_eq(
     Parser::new("usage: prog <kind> [<name> <type>]")
-    .parse(["10", "20", "40"])
+    .parse(["10", "20", "40"], options_first=false)
     .to_json(),
     ({ "<kind>": "10", "<name>": "20", "<type>": "40" } : Json),
   )
@@ -776,7 +836,7 @@ test "upstream 71" {
 test "upstream 72" {
   assert_eq(
     Parser::new("usage: prog <kind> [<name> <type>]")
-    .parse(["10", "20"])
+    .parse(["10", "20"], options_first=false)
     .to_json(),
     ({ "<kind>": "10", "<name>": "20", "<type>": null } : Json),
   )
@@ -785,7 +845,12 @@ test "upstream 72" {
 ///|
 test "upstream 73" {
   assert_true(
-    (Ok(Parser::new("usage: prog <kind> [<name> <type>]").parse([])) catch {
+    (Ok(
+      Parser::new("usage: prog <kind> [<name> <type>]").parse(
+        [],
+        options_first=false,
+      ),
+    ) catch {
       e => Err(e)
     })
     is Err(Arguments(_)),
@@ -796,9 +861,10 @@ test "upstream 73" {
 test "upstream 74" {
   assert_true(
     (Ok(
-      Parser::new("usage: prog [<kind> | <name> <type>]").parse([
-        "10", "20", "40",
-      ]),
+      Parser::new("usage: prog [<kind> | <name> <type>]").parse(
+        ["10", "20", "40"],
+        options_first=false,
+      ),
     ) catch {
       e => Err(e)
     })
@@ -810,7 +876,7 @@ test "upstream 74" {
 test "upstream 75" {
   assert_eq(
     Parser::new("usage: prog [<kind> | <name> <type>]")
-    .parse(["20", "40"])
+    .parse(["20", "40"], options_first=false)
     .to_json(),
     ({ "<kind>": null, "<name>": "20", "<type>": "40" } : Json),
   )
@@ -819,7 +885,9 @@ test "upstream 75" {
 ///|
 test "upstream 76" {
   assert_eq(
-    Parser::new("usage: prog [<kind> | <name> <type>]").parse([]).to_json(),
+    Parser::new("usage: prog [<kind> | <name> <type>]")
+    .parse([], options_first=false)
+    .to_json(),
     ({ "<kind>": null, "<name>": null, "<type>": null } : Json),
   )
 }
@@ -828,7 +896,7 @@ test "upstream 76" {
 test "upstream 77" {
   assert_eq(
     Parser::new("usage: prog (<kind> --all | <name>)\n\noptions:\n --all\n\n")
-    .parse(["10", "--all"])
+    .parse(["10", "--all"], options_first=false)
     .to_json(),
     ({ "<kind>": "10", "--all": true, "<name>": null } : Json),
   )
@@ -838,7 +906,7 @@ test "upstream 77" {
 test "upstream 78" {
   assert_eq(
     Parser::new("usage: prog (<kind> --all | <name>)\n\noptions:\n --all\n\n")
-    .parse(["10"])
+    .parse(["10"], options_first=false)
     .to_json(),
     ({ "<kind>": null, "--all": false, "<name>": "10" } : Json),
   )
@@ -848,7 +916,9 @@ test "upstream 78" {
 test "upstream 79" {
   assert_true(
     (Ok(
-      Parser::new("usage: prog (<kind> --all | <name>)\n\noptions:\n --all\n\n").parse([],
+      Parser::new("usage: prog (<kind> --all | <name>)\n\noptions:\n --all\n\n").parse(
+        [],
+        options_first=false,
       ),
     ) catch {
       e => Err(e)
@@ -860,7 +930,9 @@ test "upstream 79" {
 ///|
 test "upstream 80" {
   assert_eq(
-    Parser::new("usage: prog [<name> <name>]").parse(["10", "20"]).to_json(),
+    Parser::new("usage: prog [<name> <name>]")
+    .parse(["10", "20"], options_first=false)
+    .to_json(),
     ({ "<name>": ["10", "20"] } : Json),
   )
 }
@@ -868,7 +940,9 @@ test "upstream 80" {
 ///|
 test "upstream 81" {
   assert_eq(
-    Parser::new("usage: prog [<name> <name>]").parse(["10"]).to_json(),
+    Parser::new("usage: prog [<name> <name>]")
+    .parse(["10"], options_first=false)
+    .to_json(),
     ({ "<name>": ["10"] } : Json),
   )
 }
@@ -876,7 +950,9 @@ test "upstream 81" {
 ///|
 test "upstream 82" {
   assert_eq(
-    Parser::new("usage: prog [<name> <name>]").parse([]).to_json(),
+    Parser::new("usage: prog [<name> <name>]")
+    .parse([], options_first=false)
+    .to_json(),
     ({ "<name>": [] } : Json),
   )
 }
@@ -884,7 +960,9 @@ test "upstream 82" {
 ///|
 test "upstream 83" {
   assert_eq(
-    Parser::new("usage: prog [(<name> <name>)]").parse(["10", "20"]).to_json(),
+    Parser::new("usage: prog [(<name> <name>)]")
+    .parse(["10", "20"], options_first=false)
+    .to_json(),
     ({ "<name>": ["10", "20"] } : Json),
   )
 }
@@ -892,7 +970,12 @@ test "upstream 83" {
 ///|
 test "upstream 84" {
   assert_true(
-    (Ok(Parser::new("usage: prog [(<name> <name>)]").parse(["10"])) catch {
+    (Ok(
+      Parser::new("usage: prog [(<name> <name>)]").parse(
+        ["10"],
+        options_first=false,
+      ),
+    ) catch {
       e => Err(e)
     })
     is Err(Arguments(_)),
@@ -902,7 +985,9 @@ test "upstream 84" {
 ///|
 test "upstream 85" {
   assert_eq(
-    Parser::new("usage: prog [(<name> <name>)]").parse([]).to_json(),
+    Parser::new("usage: prog [(<name> <name>)]")
+    .parse([], options_first=false)
+    .to_json(),
     ({ "<name>": [] } : Json),
   )
 }
@@ -910,7 +995,9 @@ test "upstream 85" {
 ///|
 test "upstream 86" {
   assert_eq(
-    Parser::new("usage: prog NAME...").parse(["10", "20"]).to_json(),
+    Parser::new("usage: prog NAME...")
+    .parse(["10", "20"], options_first=false)
+    .to_json(),
     ({ "NAME": ["10", "20"] } : Json),
   )
 }
@@ -918,7 +1005,9 @@ test "upstream 86" {
 ///|
 test "upstream 87" {
   assert_eq(
-    Parser::new("usage: prog NAME...").parse(["10"]).to_json(),
+    Parser::new("usage: prog NAME...")
+    .parse(["10"], options_first=false)
+    .to_json(),
     ({ "NAME": ["10"] } : Json),
   )
 }
@@ -926,7 +1015,9 @@ test "upstream 87" {
 ///|
 test "upstream 88" {
   assert_true(
-    (Ok(Parser::new("usage: prog NAME...").parse([])) catch { e => Err(e) })
+    (Ok(Parser::new("usage: prog NAME...").parse([], options_first=false)) catch {
+      e => Err(e)
+    })
     is Err(Arguments(_)),
   )
 }
@@ -934,7 +1025,9 @@ test "upstream 88" {
 ///|
 test "upstream 89" {
   assert_eq(
-    Parser::new("usage: prog [NAME]...").parse(["10", "20"]).to_json(),
+    Parser::new("usage: prog [NAME]...")
+    .parse(["10", "20"], options_first=false)
+    .to_json(),
     ({ "NAME": ["10", "20"] } : Json),
   )
 }
@@ -942,7 +1035,9 @@ test "upstream 89" {
 ///|
 test "upstream 90" {
   assert_eq(
-    Parser::new("usage: prog [NAME]...").parse(["10"]).to_json(),
+    Parser::new("usage: prog [NAME]...")
+    .parse(["10"], options_first=false)
+    .to_json(),
     ({ "NAME": ["10"] } : Json),
   )
 }
@@ -950,7 +1045,9 @@ test "upstream 90" {
 ///|
 test "upstream 91" {
   assert_eq(
-    Parser::new("usage: prog [NAME]...").parse([]).to_json(),
+    Parser::new("usage: prog [NAME]...")
+    .parse([], options_first=false)
+    .to_json(),
     ({ "NAME": [] } : Json),
   )
 }
@@ -958,7 +1055,9 @@ test "upstream 91" {
 ///|
 test "upstream 92" {
   assert_eq(
-    Parser::new("usage: prog [NAME...]").parse(["10", "20"]).to_json(),
+    Parser::new("usage: prog [NAME...]")
+    .parse(["10", "20"], options_first=false)
+    .to_json(),
     ({ "NAME": ["10", "20"] } : Json),
   )
 }
@@ -966,7 +1065,9 @@ test "upstream 92" {
 ///|
 test "upstream 93" {
   assert_eq(
-    Parser::new("usage: prog [NAME...]").parse(["10"]).to_json(),
+    Parser::new("usage: prog [NAME...]")
+    .parse(["10"], options_first=false)
+    .to_json(),
     ({ "NAME": ["10"] } : Json),
   )
 }
@@ -974,7 +1075,9 @@ test "upstream 93" {
 ///|
 test "upstream 94" {
   assert_eq(
-    Parser::new("usage: prog [NAME...]").parse([]).to_json(),
+    Parser::new("usage: prog [NAME...]")
+    .parse([], options_first=false)
+    .to_json(),
     ({ "NAME": [] } : Json),
   )
 }
@@ -982,7 +1085,9 @@ test "upstream 94" {
 ///|
 test "upstream 95" {
   assert_eq(
-    Parser::new("usage: prog [NAME [NAME ...]]").parse(["10", "20"]).to_json(),
+    Parser::new("usage: prog [NAME [NAME ...]]")
+    .parse(["10", "20"], options_first=false)
+    .to_json(),
     ({ "NAME": ["10", "20"] } : Json),
   )
 }
@@ -990,7 +1095,9 @@ test "upstream 95" {
 ///|
 test "upstream 96" {
   assert_eq(
-    Parser::new("usage: prog [NAME [NAME ...]]").parse(["10"]).to_json(),
+    Parser::new("usage: prog [NAME [NAME ...]]")
+    .parse(["10"], options_first=false)
+    .to_json(),
     ({ "NAME": ["10"] } : Json),
   )
 }
@@ -998,7 +1105,9 @@ test "upstream 96" {
 ///|
 test "upstream 97" {
   assert_eq(
-    Parser::new("usage: prog [NAME [NAME ...]]").parse([]).to_json(),
+    Parser::new("usage: prog [NAME [NAME ...]]")
+    .parse([], options_first=false)
+    .to_json(),
     ({ "NAME": [] } : Json),
   )
 }
@@ -1007,7 +1116,7 @@ test "upstream 97" {
 test "upstream 98" {
   assert_eq(
     Parser::new("usage: prog (NAME | --foo NAME)\n\noptions: --foo\n\n")
-    .parse(["10"])
+    .parse(["10"], options_first=false)
     .to_json(),
     ({ "NAME": "10", "--foo": false } : Json),
   )
@@ -1017,7 +1126,7 @@ test "upstream 98" {
 test "upstream 99" {
   assert_eq(
     Parser::new("usage: prog (NAME | --foo NAME)\n\noptions: --foo\n\n")
-    .parse(["--foo", "10"])
+    .parse(["--foo", "10"], options_first=false)
     .to_json(),
     ({ "NAME": "10", "--foo": true } : Json),
   )
@@ -1027,9 +1136,9 @@ test "upstream 99" {
 test "upstream 100" {
   assert_true(
     (Ok(
-      Parser::new("usage: prog (NAME | --foo NAME)\n\noptions: --foo\n\n").parse([
-          "--foo=10",
-        ],
+      Parser::new("usage: prog (NAME | --foo NAME)\n\noptions: --foo\n\n").parse(
+        ["--foo=10"],
+        options_first=false,
       ),
     ) catch {
       e => Err(e)
@@ -1044,7 +1153,7 @@ test "upstream 101" {
     Parser::new(
       "usage: prog (NAME | --foo) [--bar | NAME]\n\noptions: --foo\noptions: --bar\n\n",
     )
-    .parse(["10"])
+    .parse(["10"], options_first=false)
     .to_json(),
     ({ "NAME": ["10"], "--foo": false, "--bar": false } : Json),
   )
@@ -1056,7 +1165,7 @@ test "upstream 102" {
     Parser::new(
       "usage: prog (NAME | --foo) [--bar | NAME]\n\noptions: --foo\noptions: --bar\n\n",
     )
-    .parse(["10", "20"])
+    .parse(["10", "20"], options_first=false)
     .to_json(),
     ({ "NAME": ["10", "20"], "--foo": false, "--bar": false } : Json),
   )
@@ -1068,7 +1177,7 @@ test "upstream 103" {
     Parser::new(
       "usage: prog (NAME | --foo) [--bar | NAME]\n\noptions: --foo\noptions: --bar\n\n",
     )
-    .parse(["--foo", "--bar"])
+    .parse(["--foo", "--bar"], options_first=false)
     .to_json(),
     ({ "NAME": [], "--foo": true, "--bar": true } : Json),
   )
@@ -1080,7 +1189,10 @@ test "upstream 104" {
     Parser::new(
       "Naval Fate.\n\nUsage:\n  prog ship new <name>...\n  prog ship [<name>] move <x> <y> [--speed=<kn>]\n  prog ship shoot <x> <y>\n  prog mine (set|remove) <x> <y> [--moored|--drifting]\n  prog -h | --help\n  prog --version\n\nOptions:\n  -h --help     Show this screen.\n  --version     Show version.\n  --speed=<kn>  Speed in knots [default: 10].\n  --moored      Mored (anchored) mine.\n  --drifting    Drifting mine.\n\n",
     )
-    .parse(["ship", "Guardian", "move", "150", "300", "--speed=20"])
+    .parse(
+      ["ship", "Guardian", "move", "150", "300", "--speed=20"],
+      options_first=false,
+    )
     .to_json(),
     (
       {
@@ -1106,7 +1218,9 @@ test "upstream 104" {
 ///|
 test "upstream 105" {
   assert_eq(
-    Parser::new("usage: prog --hello").parse(["--hello"]).to_json(),
+    Parser::new("usage: prog --hello")
+    .parse(["--hello"], options_first=false)
+    .to_json(),
     ({ "--hello": true } : Json),
   )
 }
@@ -1114,7 +1228,9 @@ test "upstream 105" {
 ///|
 test "upstream 106" {
   assert_eq(
-    Parser::new("usage: prog [--hello=<world>]").parse([]).to_json(),
+    Parser::new("usage: prog [--hello=<world>]")
+    .parse([], options_first=false)
+    .to_json(),
     ({ "--hello": null } : Json),
   )
 }
@@ -1123,7 +1239,7 @@ test "upstream 106" {
 test "upstream 107" {
   assert_eq(
     Parser::new("usage: prog [--hello=<world>]")
-    .parse(["--hello", "wrld"])
+    .parse(["--hello", "wrld"], options_first=false)
     .to_json(),
     ({ "--hello": "wrld" } : Json),
   )
@@ -1132,7 +1248,7 @@ test "upstream 107" {
 ///|
 test "upstream 108" {
   assert_eq(
-    Parser::new("usage: prog [-o]").parse([]).to_json(),
+    Parser::new("usage: prog [-o]").parse([], options_first=false).to_json(),
     ({ "-o": false } : Json),
   )
 }
@@ -1140,7 +1256,7 @@ test "upstream 108" {
 ///|
 test "upstream 109" {
   assert_eq(
-    Parser::new("usage: prog [-o]").parse(["-o"]).to_json(),
+    Parser::new("usage: prog [-o]").parse(["-o"], options_first=false).to_json(),
     ({ "-o": true } : Json),
   )
 }
@@ -1148,7 +1264,9 @@ test "upstream 109" {
 ///|
 test "upstream 110" {
   assert_eq(
-    Parser::new("usage: prog [-opr]").parse(["-op"]).to_json(),
+    Parser::new("usage: prog [-opr]")
+    .parse(["-op"], options_first=false)
+    .to_json(),
     ({ "-o": true, "-p": true, "-r": false } : Json),
   )
 }
@@ -1156,7 +1274,9 @@ test "upstream 110" {
 ///|
 test "upstream 111" {
   assert_eq(
-    Parser::new("usage: prog --aabb | --aa").parse(["--aa"]).to_json(),
+    Parser::new("usage: prog --aabb | --aa")
+    .parse(["--aa"], options_first=false)
+    .to_json(),
     ({ "--aabb": false, "--aa": true } : Json),
   )
 }
@@ -1164,7 +1284,12 @@ test "upstream 111" {
 ///|
 test "upstream 112" {
   assert_true(
-    (Ok(Parser::new("usage: prog --aabb | --aa").parse(["--a"])) catch {
+    (Ok(
+      Parser::new("usage: prog --aabb | --aa").parse(
+        ["--a"],
+        options_first=false,
+      ),
+    ) catch {
       e => Err(e)
     })
     is Err(Arguments(_)),
@@ -1174,7 +1299,7 @@ test "upstream 112" {
 ///|
 test "upstream 113" {
   assert_eq(
-    Parser::new("Usage: prog -v").parse(["-v"]).to_json(),
+    Parser::new("Usage: prog -v").parse(["-v"], options_first=false).to_json(),
     ({ "-v": true } : Json),
   )
 }
@@ -1182,7 +1307,7 @@ test "upstream 113" {
 ///|
 test "upstream 114" {
   assert_eq(
-    Parser::new("Usage: prog [-v -v]").parse([]).to_json(),
+    Parser::new("Usage: prog [-v -v]").parse([], options_first=false).to_json(),
     ({ "-v": 0 } : Json),
   )
 }
@@ -1190,7 +1315,9 @@ test "upstream 114" {
 ///|
 test "upstream 115" {
   assert_eq(
-    Parser::new("Usage: prog [-v -v]").parse(["-v"]).to_json(),
+    Parser::new("Usage: prog [-v -v]")
+    .parse(["-v"], options_first=false)
+    .to_json(),
     ({ "-v": 1 } : Json),
   )
 }
@@ -1198,7 +1325,9 @@ test "upstream 115" {
 ///|
 test "upstream 116" {
   assert_eq(
-    Parser::new("Usage: prog [-v -v]").parse(["-vv"]).to_json(),
+    Parser::new("Usage: prog [-v -v]")
+    .parse(["-vv"], options_first=false)
+    .to_json(),
     ({ "-v": 2 } : Json),
   )
 }
@@ -1206,7 +1335,9 @@ test "upstream 116" {
 ///|
 test "upstream 117" {
   assert_true(
-    (Ok(Parser::new("Usage: prog -v ...").parse([])) catch { e => Err(e) })
+    (Ok(Parser::new("Usage: prog -v ...").parse([], options_first=false)) catch {
+      e => Err(e)
+    })
     is Err(Arguments(_)),
   )
 }
@@ -1214,7 +1345,9 @@ test "upstream 117" {
 ///|
 test "upstream 118" {
   assert_eq(
-    Parser::new("Usage: prog -v ...").parse(["-v"]).to_json(),
+    Parser::new("Usage: prog -v ...")
+    .parse(["-v"], options_first=false)
+    .to_json(),
     ({ "-v": 1 } : Json),
   )
 }
@@ -1222,7 +1355,9 @@ test "upstream 118" {
 ///|
 test "upstream 119" {
   assert_eq(
-    Parser::new("Usage: prog -v ...").parse(["-vv"]).to_json(),
+    Parser::new("Usage: prog -v ...")
+    .parse(["-vv"], options_first=false)
+    .to_json(),
     ({ "-v": 2 } : Json),
   )
 }
@@ -1230,7 +1365,9 @@ test "upstream 119" {
 ///|
 test "upstream 120" {
   assert_eq(
-    Parser::new("Usage: prog -v ...").parse(["-vvvvvv"]).to_json(),
+    Parser::new("Usage: prog -v ...")
+    .parse(["-vvvvvv"], options_first=false)
+    .to_json(),
     ({ "-v": 6 } : Json),
   )
 }
@@ -1241,7 +1378,7 @@ test "upstream 121" {
     Parser::new(
       "Usage: prog [-v | -vv | -vvv]\n\nThis one is probably most readable user-friednly variant.\n\n",
     )
-    .parse([])
+    .parse([], options_first=false)
     .to_json(),
     ({ "-v": 0 } : Json),
   )
@@ -1253,7 +1390,7 @@ test "upstream 122" {
     Parser::new(
       "Usage: prog [-v | -vv | -vvv]\n\nThis one is probably most readable user-friednly variant.\n\n",
     )
-    .parse(["-v"])
+    .parse(["-v"], options_first=false)
     .to_json(),
     ({ "-v": 1 } : Json),
   )
@@ -1265,7 +1402,7 @@ test "upstream 123" {
     Parser::new(
       "Usage: prog [-v | -vv | -vvv]\n\nThis one is probably most readable user-friednly variant.\n\n",
     )
-    .parse(["-vv"])
+    .parse(["-vv"], options_first=false)
     .to_json(),
     ({ "-v": 2 } : Json),
   )
@@ -1277,7 +1414,7 @@ test "upstream 124" {
     (Ok(
       Parser::new(
         "Usage: prog [-v | -vv | -vvv]\n\nThis one is probably most readable user-friednly variant.\n\n",
-      ).parse(["-vvvv"]),
+      ).parse(["-vvvv"], options_first=false),
     ) catch {
       e => Err(e)
     })
@@ -1288,7 +1425,9 @@ test "upstream 124" {
 ///|
 test "upstream 125" {
   assert_eq(
-    Parser::new("usage: prog [--ver --ver]").parse(["--ver", "--ver"]).to_json(),
+    Parser::new("usage: prog [--ver --ver]")
+    .parse(["--ver", "--ver"], options_first=false)
+    .to_json(),
     ({ "--ver": 2 } : Json),
   )
 }
@@ -1296,7 +1435,7 @@ test "upstream 125" {
 ///|
 test "upstream 126" {
   assert_eq(
-    Parser::new("usage: prog [go]").parse(["go"]).to_json(),
+    Parser::new("usage: prog [go]").parse(["go"], options_first=false).to_json(),
     ({ "go": true } : Json),
   )
 }
@@ -1304,7 +1443,7 @@ test "upstream 126" {
 ///|
 test "upstream 127" {
   assert_eq(
-    Parser::new("usage: prog [go go]").parse([]).to_json(),
+    Parser::new("usage: prog [go go]").parse([], options_first=false).to_json(),
     ({ "go": 0 } : Json),
   )
 }
@@ -1312,7 +1451,9 @@ test "upstream 127" {
 ///|
 test "upstream 128" {
   assert_eq(
-    Parser::new("usage: prog [go go]").parse(["go"]).to_json(),
+    Parser::new("usage: prog [go go]")
+    .parse(["go"], options_first=false)
+    .to_json(),
     ({ "go": 1 } : Json),
   )
 }
@@ -1320,7 +1461,9 @@ test "upstream 128" {
 ///|
 test "upstream 129" {
   assert_eq(
-    Parser::new("usage: prog [go go]").parse(["go", "go"]).to_json(),
+    Parser::new("usage: prog [go go]")
+    .parse(["go", "go"], options_first=false)
+    .to_json(),
     ({ "go": 2 } : Json),
   )
 }
@@ -1328,7 +1471,12 @@ test "upstream 129" {
 ///|
 test "upstream 130" {
   assert_true(
-    (Ok(Parser::new("usage: prog [go go]").parse(["go", "go", "go"])) catch {
+    (Ok(
+      Parser::new("usage: prog [go go]").parse(
+        ["go", "go", "go"],
+        options_first=false,
+      ),
+    ) catch {
       e => Err(e)
     })
     is Err(Arguments(_)),
@@ -1339,7 +1487,7 @@ test "upstream 130" {
 test "upstream 131" {
   assert_eq(
     Parser::new("usage: prog go...")
-    .parse(["go", "go", "go", "go", "go"])
+    .parse(["go", "go", "go", "go", "go"], options_first=false)
     .to_json(),
     ({ "go": 5 } : Json),
   )
@@ -1349,7 +1497,7 @@ test "upstream 131" {
 test "upstream 132" {
   assert_eq(
     Parser::new("usage: prog [options] [-a]\n\noptions: -a\n         -b\n")
-    .parse(["-a"])
+    .parse(["-a"], options_first=false)
     .to_json(),
     ({ "-a": true, "-b": false } : Json),
   )
@@ -1359,9 +1507,9 @@ test "upstream 132" {
 test "upstream 133" {
   assert_true(
     (Ok(
-      Parser::new("usage: prog [options] [-a]\n\noptions: -a\n         -b\n").parse([
-          "-aa",
-        ],
+      Parser::new("usage: prog [options] [-a]\n\noptions: -a\n         -b\n").parse(
+        ["-aa"],
+        options_first=false,
       ),
     ) catch {
       e => Err(e)
@@ -1376,7 +1524,7 @@ test "upstream 134" {
     Parser::new(
       "Usage: prog [options] A\nOptions:\n    -q  Be quiet\n    -v  Be verbose.\n\n",
     )
-    .parse(["arg"])
+    .parse(["arg"], options_first=false)
     .to_json(),
     ({ "A": "arg", "-v": false, "-q": false } : Json),
   )
@@ -1388,7 +1536,7 @@ test "upstream 135" {
     Parser::new(
       "Usage: prog [options] A\nOptions:\n    -q  Be quiet\n    -v  Be verbose.\n\n",
     )
-    .parse(["-v", "arg"])
+    .parse(["-v", "arg"], options_first=false)
     .to_json(),
     ({ "A": "arg", "-v": true, "-q": false } : Json),
   )
@@ -1400,7 +1548,7 @@ test "upstream 136" {
     Parser::new(
       "Usage: prog [options] A\nOptions:\n    -q  Be quiet\n    -v  Be verbose.\n\n",
     )
-    .parse(["-q", "arg"])
+    .parse(["-q", "arg"], options_first=false)
     .to_json(),
     ({ "A": "arg", "-v": false, "-q": true } : Json),
   )
@@ -1409,7 +1557,7 @@ test "upstream 136" {
 ///|
 test "upstream 137" {
   assert_eq(
-    Parser::new("usage: prog [-]").parse(["-"]).to_json(),
+    Parser::new("usage: prog [-]").parse(["-"], options_first=false).to_json(),
     ({ "-": true } : Json),
   )
 }
@@ -1417,7 +1565,7 @@ test "upstream 137" {
 ///|
 test "upstream 138" {
   assert_eq(
-    Parser::new("usage: prog [-]").parse([]).to_json(),
+    Parser::new("usage: prog [-]").parse([], options_first=false).to_json(),
     ({ "-": false } : Json),
   )
 }
@@ -1425,7 +1573,9 @@ test "upstream 138" {
 ///|
 test "upstream 139" {
   assert_eq(
-    Parser::new("usage: prog [NAME [NAME ...]]").parse(["a", "b"]).to_json(),
+    Parser::new("usage: prog [NAME [NAME ...]]")
+    .parse(["a", "b"], options_first=false)
+    .to_json(),
     ({ "NAME": ["a", "b"] } : Json),
   )
 }
@@ -1433,7 +1583,9 @@ test "upstream 139" {
 ///|
 test "upstream 140" {
   assert_eq(
-    Parser::new("usage: prog [NAME [NAME ...]]").parse([]).to_json(),
+    Parser::new("usage: prog [NAME [NAME ...]]")
+    .parse([], options_first=false)
+    .to_json(),
     ({ "NAME": [] } : Json),
   )
 }
@@ -1444,7 +1596,7 @@ test "upstream 141" {
     Parser::new(
       "usage: prog [options]\noptions:\n -a        Add\n -m <msg>  Message\n\n",
     )
-    .parse(["-a"])
+    .parse(["-a"], options_first=false)
     .to_json(),
     ({ "-m": null, "-a": true } : Json),
   )
@@ -1453,7 +1605,9 @@ test "upstream 141" {
 ///|
 test "upstream 142" {
   assert_eq(
-    Parser::new("usage: prog --hello").parse(["--hello"]).to_json(),
+    Parser::new("usage: prog --hello")
+    .parse(["--hello"], options_first=false)
+    .to_json(),
     ({ "--hello": true } : Json),
   )
 }
@@ -1461,7 +1615,9 @@ test "upstream 142" {
 ///|
 test "upstream 143" {
   assert_eq(
-    Parser::new("usage: prog [--hello=<world>]").parse([]).to_json(),
+    Parser::new("usage: prog [--hello=<world>]")
+    .parse([], options_first=false)
+    .to_json(),
     ({ "--hello": null } : Json),
   )
 }
@@ -1470,7 +1626,7 @@ test "upstream 143" {
 test "upstream 144" {
   assert_eq(
     Parser::new("usage: prog [--hello=<world>]")
-    .parse(["--hello", "wrld"])
+    .parse(["--hello", "wrld"], options_first=false)
     .to_json(),
     ({ "--hello": "wrld" } : Json),
   )
@@ -1479,7 +1635,7 @@ test "upstream 144" {
 ///|
 test "upstream 145" {
   assert_eq(
-    Parser::new("usage: prog [-o]").parse([]).to_json(),
+    Parser::new("usage: prog [-o]").parse([], options_first=false).to_json(),
     ({ "-o": false } : Json),
   )
 }
@@ -1487,7 +1643,7 @@ test "upstream 145" {
 ///|
 test "upstream 146" {
   assert_eq(
-    Parser::new("usage: prog [-o]").parse(["-o"]).to_json(),
+    Parser::new("usage: prog [-o]").parse(["-o"], options_first=false).to_json(),
     ({ "-o": true } : Json),
   )
 }
@@ -1495,7 +1651,9 @@ test "upstream 146" {
 ///|
 test "upstream 147" {
   assert_eq(
-    Parser::new("usage: prog [-opr]").parse(["-op"]).to_json(),
+    Parser::new("usage: prog [-opr]")
+    .parse(["-op"], options_first=false)
+    .to_json(),
     ({ "-o": true, "-p": true, "-r": false } : Json),
   )
 }
@@ -1503,7 +1661,9 @@ test "upstream 147" {
 ///|
 test "upstream 148" {
   assert_eq(
-    Parser::new("usage: git [-v | --verbose]").parse(["-v"]).to_json(),
+    Parser::new("usage: git [-v | --verbose]")
+    .parse(["-v"], options_first=false)
+    .to_json(),
     ({ "-v": true, "--verbose": false } : Json),
   )
 }
@@ -1512,7 +1672,7 @@ test "upstream 148" {
 test "upstream 149" {
   assert_eq(
     Parser::new("usage: git remote [-v | --verbose]")
-    .parse(["remote", "-v"])
+    .parse(["remote", "-v"], options_first=false)
     .to_json(),
     ({ "remote": true, "-v": true, "--verbose": false } : Json),
   )
@@ -1520,14 +1680,17 @@ test "upstream 149" {
 
 ///|
 test "upstream 150" {
-  assert_eq(Parser::new("usage: prog").parse([]).to_json(), ({} : Json))
+  assert_eq(
+    Parser::new("usage: prog").parse([], options_first=false).to_json(),
+    ({} : Json),
+  )
 }
 
 ///|
 test "upstream 151" {
   assert_eq(
     Parser::new("usage: prog\n           prog <a> <b>\n")
-    .parse(["1", "2"])
+    .parse(["1", "2"], options_first=false)
     .to_json(),
     ({ "<a>": "1", "<b>": "2" } : Json),
   )
@@ -1536,7 +1699,9 @@ test "upstream 151" {
 ///|
 test "upstream 152" {
   assert_eq(
-    Parser::new("usage: prog\n           prog <a> <b>\n").parse([]).to_json(),
+    Parser::new("usage: prog\n           prog <a> <b>\n")
+    .parse([], options_first=false)
+    .to_json(),
     ({ "<a>": null, "<b>": null } : Json),
   )
 }
@@ -1544,7 +1709,9 @@ test "upstream 152" {
 ///|
 test "upstream 153" {
   assert_eq(
-    Parser::new("usage: prog <a> <b>\n           prog\n").parse([]).to_json(),
+    Parser::new("usage: prog <a> <b>\n           prog\n")
+    .parse([], options_first=false)
+    .to_json(),
     ({ "<a>": null, "<b>": null } : Json),
   )
 }
@@ -1552,7 +1719,9 @@ test "upstream 153" {
 ///|
 test "upstream 154" {
   assert_eq(
-    Parser::new("usage: prog [--file=<f>]").parse([]).to_json(),
+    Parser::new("usage: prog [--file=<f>]")
+    .parse([], options_first=false)
+    .to_json(),
     ({ "--file": null } : Json),
   )
 }
@@ -1561,7 +1730,7 @@ test "upstream 154" {
 test "upstream 155" {
   assert_eq(
     Parser::new("usage: prog [--file=<f>]\n\noptions: --file <a>\n\n")
-    .parse([])
+    .parse([], options_first=false)
     .to_json(),
     ({ "--file": null } : Json),
   )
@@ -1573,7 +1742,7 @@ test "upstream 156" {
     Parser::new(
       "Usage: prog [-a <host:port>]\n\nOptions: -a, --address <host:port>  TCP address [default: localhost:6283].\n\n",
     )
-    .parse([])
+    .parse([], options_first=false)
     .to_json(),
     ({ "--address": "localhost:6283" } : Json),
   )
@@ -1583,7 +1752,7 @@ test "upstream 156" {
 test "upstream 157" {
   assert_eq(
     Parser::new("usage: prog --long=<arg> ...")
-    .parse(["--long", "one"])
+    .parse(["--long", "one"], options_first=false)
     .to_json(),
     ({ "--long": ["one"] } : Json),
   )
@@ -1593,7 +1762,7 @@ test "upstream 157" {
 test "upstream 158" {
   assert_eq(
     Parser::new("usage: prog --long=<arg> ...")
-    .parse(["--long", "one", "--long", "two"])
+    .parse(["--long", "one", "--long", "two"], options_first=false)
     .to_json(),
     ({ "--long": ["one", "two"] } : Json),
   )
@@ -1603,7 +1772,10 @@ test "upstream 158" {
 test "upstream 159" {
   assert_eq(
     Parser::new("usage: prog (go <direction> --speed=<km/h>)...")
-    .parse(["go", "left", "--speed=5", "go", "right", "--speed=9"])
+    .parse(
+      ["go", "left", "--speed=5", "go", "right", "--speed=9"],
+      options_first=false,
+    )
     .to_json(),
     ({ "go": 2, "<direction>": ["left", "right"], "--speed": ["5", "9"] } : Json),
   )
@@ -1613,7 +1785,7 @@ test "upstream 159" {
 test "upstream 160" {
   assert_eq(
     Parser::new("usage: prog [options] -a\n\noptions: -a\n\n")
-    .parse(["-a"])
+    .parse(["-a"], options_first=false)
     .to_json(),
     ({ "-a": true } : Json),
   )
@@ -1623,7 +1795,7 @@ test "upstream 160" {
 test "upstream 161" {
   assert_eq(
     Parser::new("usage: prog [-o <o>]...\n\noptions: -o <o>  [default: x]\n\n")
-    .parse(["-o", "this", "-o", "that"])
+    .parse(["-o", "this", "-o", "that"], options_first=false)
     .to_json(),
     ({ "-o": ["this", "that"] } : Json),
   )
@@ -1633,7 +1805,7 @@ test "upstream 161" {
 test "upstream 162" {
   assert_eq(
     Parser::new("usage: prog [-o <o>]...\n\noptions: -o <o>  [default: x]\n\n")
-    .parse([])
+    .parse([], options_first=false)
     .to_json(),
     ({ "-o": ["x"] } : Json),
   )
@@ -1645,7 +1817,7 @@ test "upstream 163" {
     Parser::new(
       "usage: prog [-o <o>]...\n\noptions: -o <o>  [default: x y]\n\n",
     )
-    .parse(["-o", "this"])
+    .parse(["-o", "this"], options_first=false)
     .to_json(),
     ({ "-o": ["this"] } : Json),
   )
@@ -1657,7 +1829,7 @@ test "upstream 164" {
     Parser::new(
       "usage: prog [-o <o>]...\n\noptions: -o <o>  [default: x y]\n\n",
     )
-    .parse([])
+    .parse([], options_first=false)
     .to_json(),
     ({ "-o": ["x", "y"] } : Json),
   )
@@ -1667,7 +1839,7 @@ test "upstream 164" {
 test "upstream 165" {
   assert_eq(
     Parser::new("usage: prog -pPATH\n\noptions: -p PATH\n\n")
-    .parse(["-pHOME"])
+    .parse(["-pHOME"], options_first=false)
     .to_json(),
     ({ "-p": "HOME" } : Json),
   )
@@ -1677,7 +1849,7 @@ test "upstream 165" {
 test "upstream 166" {
   assert_eq(
     Parser::new("Usage: foo (--xx=x|--yy=y)...")
-    .parse(["--xx=1", "--yy=2"])
+    .parse(["--xx=1", "--yy=2"], options_first=false)
     .to_json(),
     ({ "--xx": ["1"], "--yy": ["2"] } : Json),
   )
@@ -1686,7 +1858,9 @@ test "upstream 166" {
 ///|
 test "upstream 167" {
   assert_eq(
-    Parser::new("usage: prog [<input file>]").parse(["f.txt"]).to_json(),
+    Parser::new("usage: prog [<input file>]")
+    .parse(["f.txt"], options_first=false)
+    .to_json(),
     ({ "<input file>": "f.txt" } : Json),
   )
 }
@@ -1695,7 +1869,7 @@ test "upstream 167" {
 test "upstream 168" {
   assert_eq(
     Parser::new("usage: prog [--input=<file name>]...")
-    .parse(["--input", "a.txt", "--input=b.txt"])
+    .parse(["--input", "a.txt", "--input=b.txt"], options_first=false)
     .to_json(),
     ({ "--input": ["a.txt", "b.txt"] } : Json),
   )
@@ -1707,7 +1881,7 @@ test "upstream 169" {
     Parser::new(
       "usage: prog good [options]\n           prog fail [options]\n\noptions: --loglevel=N\n\n",
     )
-    .parse(["fail", "--loglevel", "5"])
+    .parse(["fail", "--loglevel", "5"], options_first=false)
     .to_json(),
     ({ "--loglevel": "5", "fail": true, "good": false } : Json),
   )
@@ -1716,7 +1890,9 @@ test "upstream 169" {
 ///|
 test "upstream 170" {
   assert_eq(
-    Parser::new("usage:prog --foo").parse(["--foo"]).to_json(),
+    Parser::new("usage:prog --foo")
+    .parse(["--foo"], options_first=false)
+    .to_json(),
     ({ "--foo": true } : Json),
   )
 }
@@ -1724,7 +1900,9 @@ test "upstream 170" {
 ///|
 test "upstream 171" {
   assert_eq(
-    Parser::new("PROGRAM USAGE: prog --foo").parse(["--foo"]).to_json(),
+    Parser::new("PROGRAM USAGE: prog --foo")
+    .parse(["--foo"], options_first=false)
+    .to_json(),
     ({ "--foo": true } : Json),
   )
 }
@@ -1733,7 +1911,7 @@ test "upstream 171" {
 test "upstream 172" {
   assert_eq(
     Parser::new("Usage: prog --foo\n           prog --bar\nNOT PART OF SECTION")
-    .parse(["--foo"])
+    .parse(["--foo"], options_first=false)
     .to_json(),
     ({ "--foo": true, "--bar": false } : Json),
   )
@@ -1743,7 +1921,7 @@ test "upstream 172" {
 test "upstream 173" {
   assert_eq(
     Parser::new("Usage:\n prog --foo\n prog --bar\n\nNOT PART OF SECTION")
-    .parse(["--foo"])
+    .parse(["--foo"], options_first=false)
     .to_json(),
     ({ "--foo": true, "--bar": false } : Json),
   )
@@ -1753,7 +1931,7 @@ test "upstream 173" {
 test "upstream 174" {
   assert_eq(
     Parser::new("Usage:\n prog --foo\n prog --bar\nNOT PART OF SECTION")
-    .parse(["--foo"])
+    .parse(["--foo"], options_first=false)
     .to_json(),
     ({ "--foo": true, "--bar": false } : Json),
   )
@@ -1765,7 +1943,7 @@ test "upstream 175" {
     Parser::new(
       "Usage: prog [options]\n\nglobal options: --foo\nlocal options: --baz\n               --bar\nother options:\n --egg\n --spam\n-not-an-option-\n\n",
     )
-    .parse(["--baz", "--egg"])
+    .parse(["--baz", "--egg"], options_first=false)
     .to_json(),
     (
       {

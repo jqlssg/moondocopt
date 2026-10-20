@@ -33,8 +33,8 @@ pub fn OptionSpec::parse(source : String) -> OptionSpec raise DocoptError {
   let end = text.find("  ").unwrap_or(text.length())
   let syntax = text[:end]
     .to_owned()
-    .replace(old=",", new=" ")
-    .replace(old="=", new=" ")
+    .replace_all(old=",", new=" ")
+    .replace_all(old="=", new=" ")
   let mut short = None
   let mut long = None
   let mut takes_value = false
