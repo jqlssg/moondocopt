@@ -1,0 +1,59 @@
+name: CI
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  backend:
+    name: backend (${{ matrix.target }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [wasm-gc, wasm, js, native]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install stable MoonBit
+        shell: bash
+        run: |
+          curl --fail --silent --show-error https://cli.moonbitlang.com/install/unix.sh -o /tmp/install-moon.sh
+          bash /tmp/install-moon.sh
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+      - name: Record toolchain
+        run: |
+          moon version --all
+          node --version
+          cc --version
+      - name: Interface and format reproducibility
+        run: |
+          moon info
+          moon fmt
+          git diff --exit-code
+      - name: Strict check, build and tests
+        run: |
+          moon check --deny-warn --target ${{ matrix.target }}
+          moon build --deny-warn --target ${{ matrix.target }}
+          moon test --deny-warn --target ${{ matrix.target }}
+      - name: Real business workflows
+        run: python3 scripts/check_workflows.py --target ${{ matrix.target }}
+      - name: Production and history audit
+        run: python3 scripts/audit.py
+  oracle:
+    name: independent reference regeneration
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install stable MoonBit
+        run: |
+          curl --fail --silent --show-error https://cli.moonbitlang.com/install/unix.sh -o /tmp/install-moon.sh
+          bash /tmp/install-moon.sh
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+      - name: Regenerate docopt and shlex answers
+        run: |
+          python3 scripts/generate_oracles.py
+          moon fmt
+          git diff --exit-code

@@ -1,0 +1,117 @@
+[
+  {
+    "commit": "65db27566d446e88ebd56678e9b40c38186d05c7",
+    "purpose": "feat: establish owned CLI values and licensed docopt port foundation",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "2e37bdf632d7e8832ccaa0412c5d15c574565a33",
+    "purpose": "feat: extract usage sections and preserve help document boundaries",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "01a251a1bd2b21302031bc4ecd2334c5e652ed41",
+    "purpose": "feat: parse option aliases arity and multiline defaults",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "db2051f2c36d23cf949021fd1d8cf5f3b978a701",
+    "purpose": "feat: tokenize formal usage with grouped alternatives and source offsets",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "e1538fd4d0dfd5ec95908312de56da535526a070",
+    "purpose": "feat: parse required optional alternative and repeated usage expressions",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "d21d0256840a6f04496e3095fb15990237d4188e",
+    "purpose": "feat: compile aliases and option shortcuts into reusable grammar",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "228056519540e5438a36d84af5afbd41796c2ff1",
+    "purpose": "feat: infer branch-sensitive repetition and typed default values",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "483097f1edd7a8398c0f896fc715562a2e929891",
+    "purpose": "feat: normalize long options with exact-first unique abbreviations",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "cd9c1134c5b52c773848f760c1accac7c221ef51",
+    "purpose": "feat: support short clusters attached arguments and options-first mode",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "dbece0799959932053d4ca942adb53bfaa98c35e",
+    "purpose": "feat: match docopt grammar with rollback greedy choice and repetition",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "80ba0c965bed5f5646e8179cad5f51a2dd654c3d",
+    "purpose": "test: validate upstream docopt command-line compatibility corpus",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "dbde03901fc59260ca1253e34756e9bc3fb4bf31",
+    "purpose": "feat: return explicit help and version outcomes without process side effects",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "76ace7b7f35dce0745ee9d0e5bebff912595fe82",
+    "purpose": "feat: bound compilation argv size and branch matching work",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "af46a3b2dd63f589990b028cc824132a3827554d",
+    "purpose": "feat: add strict owned typed accessors with integer overflow validation",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "94152cb54473e3cbc20abc89f1afe885f2888e8b",
+    "purpose": "feat: expose owned parameter metadata and deterministic lexical suggestions",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "116fc9014c192c3e234f66c63493aca0641d41bb",
+    "purpose": "feat: add strict bounded JSON request and structured error protocol",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "5975153e8b4ec064fbe5e7a4057c42cad7ff3713",
+    "purpose": "feat: tokenize embedded console commands with quotes escapes and limits",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "81643d0537753c5df906852e31ee7a87468f936c",
+    "purpose": "feat: preserve argv boundaries with safe POSIX quoting and roundtrips",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "1b58499cba3f913d0f07b88ffa3368b2b60e13c4",
+    "purpose": "feat: demonstrate real numeric CLI with typed validation and reductions",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "7e40a4fff42a85c6a1cd37c2e1742193ea08a4c4",
+    "purpose": "feat: integrate docopt migration into deterministic compiler job planning",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "0c8829e050f1e39e357869ce8d39d3cf57a932a8",
+    "purpose": "feat: embed help-driven queries into a filtered ranked record console",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "ffd746b898fa4a0d8cbf7b5ef3c0b8b3788330f0",
+    "purpose": "fix: escape every quote and validate against independent Python oracles",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  },
+  {
+    "commit": "a6a874bd724c71484d16151a0873983211cde4d0",
+    "purpose": "fix: bound options shortcut expansion before allocating grammar trees",
+    "verification": "moon fmt; moon info; moon check --deny-warn; moon test --deny-warn (per-step local logs)"
+  }
+]
