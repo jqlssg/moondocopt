@@ -41,6 +41,7 @@ pub fn OptionSpec::parse(String) -> Self raise DocoptError
 pub struct Parser {
   // private fields
 }
+pub fn Parser::defaults(Self) -> Values raise DocoptError
 pub fn Parser::keys(Self) -> Array[String]
 pub fn Parser::new(String) -> Self raise DocoptError
 pub fn Parser::options(Self) -> Array[OptionSpec]
