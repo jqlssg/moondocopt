@@ -109,11 +109,55 @@ pub fn Parser::normalize(
       out.push(Positional(token))
     } else if token.has_prefix("--") {
       out.push(long_argument(token, cursor, specs))
+    } else if token.has_prefix("-") && token != "-" {
+      for item in short_arguments(token, cursor, specs) {
+        out.push(item)
+      }
     } else {
       out.push(Positional(token))
       if options_first {
         positional_only = true
       }
+    }
+  }
+  out
+}
+
+///|
+/// A value-taking short option consumes the rest of its cluster, or one argv.
+fn short_arguments(
+  token : String,
+  cursor : ArgvCursor,
+  specs : Array[OptionSpec],
+) -> Array[ArgumentToken] raise DocoptError {
+  let out = []
+  let mut i = 1
+  while i < token.length() {
+    let key = "-" + token[i:i + 1].to_owned()
+    i += 1
+    let spec = match find_spec(specs, key) {
+      Some(n) => specs[n]
+      None => {
+        let unknown = {
+          short: Some(key),
+          long: None,
+          takes_value: false,
+          default_value: None,
+        }
+        specs.push(unknown)
+        unknown
+      }
+    }
+    if spec.takes_value {
+      let value = if i < token.length() {
+        token[i:].to_owned()
+      } else {
+        cursor.option_value(key)
+      }
+      out.push(OptionToken(spec.key(), Text(value)))
+      break
+    } else {
+      out.push(OptionToken(spec.key(), Flag(true)))
     }
   }
   out

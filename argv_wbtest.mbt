@@ -19,3 +19,26 @@ test "long exact unique prefix value and ambiguity" {
     Positional("--quiet"),
   ])
 }
+
+///|
+test "short clusters and options-first" {
+  let p = Parser::new(
+    "Usage: p [options] [<x>...]\nOptions:\n  -v --verbose  Talk\n  -q  Quiet\n  -o FILE  Output",
+  )
+  assert_eq(p.normalize(["-vqoout.txt"]), [
+    OptionToken("--verbose", Flag(true)),
+    OptionToken("-q", Flag(true)),
+    OptionToken("-o", Text("out.txt")),
+  ])
+  assert_eq(p.normalize(["x", "-v"], options_first=true), [
+    Positional("x"),
+    Positional("-v"),
+  ])
+  assert_eq(p.normalize(["-", "-v"]), [
+    Positional("-"),
+    OptionToken("--verbose", Flag(true)),
+  ])
+  assert_true(
+    (Ok(p.normalize(["-o"])) catch { e => Err(e) }) is Err(Arguments(_)),
+  )
+}
