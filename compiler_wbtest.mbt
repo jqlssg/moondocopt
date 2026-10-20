@@ -12,3 +12,14 @@ test "compiler binds cluster aliases and shortcut excludes explicit options" {
   assert_eq(p.program(), "tool")
   assert_eq(p.options().length(), 3)
 }
+
+///|
+test "ellipsis repeats a short cluster as one grammar atom" {
+  let p = Parser::new("Usage: p -ab...")
+  let v = p.parse(["-abab"])
+  assert_eq(v.get("-a"), Some(Count(2)))
+  assert_eq(v.get("-b"), Some(Count(2)))
+  assert_true(
+    (Ok(p.parse(["-abb"])) catch { e => Err(e) }) is Err(Arguments(_)),
+  )
+}

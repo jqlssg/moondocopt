@@ -64,6 +64,7 @@ fn bind_usage(
       }
       out.push({ text: spec.key(), offset: token.offset, })
     } else if name.has_prefix("-") && name != "-" && name != "--" {
+      let cluster_start = out.length()
       let mut j = 1
       while j < name.length() {
         let key = "-" + name[j:j + 1].to_owned()
@@ -91,6 +92,12 @@ fn bind_usage(
           }
           break
         }
+      }
+      if out.length() - cluster_start > 1 &&
+        i < tokens.length() &&
+        tokens[i].text == "..." {
+        out.insert(cluster_start, { text: "(", offset: token.offset, })
+        out.push({ text: ")", offset: token.offset, })
       }
     } else {
       out.push(token)
