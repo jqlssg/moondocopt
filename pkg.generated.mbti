@@ -24,7 +24,17 @@ pub struct Document {
   // private fields
 }
 pub fn Document::new(String) -> Self raise DocoptError
+pub fn Document::options(Self) -> Array[OptionSpec] raise DocoptError
 pub fn Document::options_sections(Self) -> Array[String]
+
+pub struct OptionSpec {
+  short : String?
+  long : String?
+  takes_value : Bool
+  default_value : String?
+}
+pub fn OptionSpec::key(Self) -> String
+pub fn OptionSpec::parse(String) -> Self raise DocoptError
 
 pub(all) enum Value {
   Flag(Bool)
