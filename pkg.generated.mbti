@@ -17,6 +17,14 @@ pub(all) suberror DocoptError {
 pub fn DocoptError::to_repr(Self) -> @debug.Repr
 
 // Types and methods
+pub enum ArgumentToken {
+  OptionToken(String, Value)
+  Positional(String)
+} derive(Eq, @debug.Debug)
+pub fn ArgumentToken::equal(Self, Self) -> Bool
+pub fn ArgumentToken::not_equal(Self, Self) -> Bool
+pub fn ArgumentToken::to_repr(Self) -> @debug.Repr
+
 pub struct Document {
   text : String
   usage : String
@@ -44,6 +52,7 @@ pub struct Parser {
 pub fn Parser::defaults(Self) -> Values raise DocoptError
 pub fn Parser::keys(Self) -> Array[String]
 pub fn Parser::new(String) -> Self raise DocoptError
+pub fn Parser::normalize(Self, Array[String], options_first? : Bool) -> Array[ArgumentToken] raise DocoptError
 pub fn Parser::options(Self) -> Array[OptionSpec]
 pub fn Parser::program(Self) -> String
 pub fn Parser::usage(Self) -> String
