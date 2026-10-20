@@ -1,0 +1,45 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "jqlssg/moondocopt"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+
+// Errors
+pub(all) suberror DocoptError {
+  Language(String)
+  Arguments(String)
+  Limit(String)
+  Conversion(String)
+} derive(@debug.Debug)
+pub fn DocoptError::to_repr(Self) -> @debug.Repr
+
+// Types and methods
+pub(all) enum Value {
+  Flag(Bool)
+  Text(String)
+  Missing
+  Count(Int32)
+  Texts(Array[String])
+} derive(Eq, @debug.Debug)
+pub fn Value::equal(Self, Self) -> Bool
+pub fn Value::not_equal(Self, Self) -> Bool
+pub fn Value::to_json(Self) -> Json
+pub fn Value::to_repr(Self) -> @debug.Repr
+
+pub struct Values {
+  // private fields
+} derive(@debug.Debug)
+pub fn Values::flag(Self, String) -> Bool raise DocoptError
+pub fn Values::get(Self, String) -> Value?
+pub fn Values::keys(Self) -> Array[String]
+pub fn Values::new(Map[String, Value]) -> Self
+pub fn Values::text(Self, String) -> String? raise DocoptError
+pub fn Values::to_json(Self) -> Json
+pub fn Values::to_repr(Self) -> @debug.Repr
+
+// Type aliases
+
+// Traits
