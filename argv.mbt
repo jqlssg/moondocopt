@@ -97,6 +97,14 @@ pub fn Parser::normalize(
   argv : Array[String],
   options_first~ : Bool = false,
 ) -> Array[ArgumentToken] raise DocoptError {
+  guard argv.length() <= self.limits.argv_count else {
+    raise Limit("too many argv items")
+  }
+  let mut remaining = self.limits.argv_units
+  for arg in argv {
+    guard arg.length() <= remaining else { raise Limit("argv text too large") }
+    remaining -= arg.length()
+  }
   let cursor = { args: argv.copy(), position: 0, }
   let specs = self.specs.copy()
   let out = []

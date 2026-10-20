@@ -37,6 +37,16 @@ pub fn Document::options_sections(Self) -> Array[String]
 pub fn Document::pattern(Self) -> Pattern raise DocoptError
 pub fn Document::tokens(Self) -> Array[UsageToken] raise DocoptError
 
+pub(all) struct Limits {
+  document_units : Int32
+  usage_tokens : Int32
+  options : Int32
+  argv_count : Int32
+  argv_units : Int32
+  match_steps : Int32
+}
+pub fn Limits::default() -> Self
+
 pub struct OptionSpec {
   short : String?
   long : String?
@@ -58,7 +68,7 @@ pub struct Parser {
 }
 pub fn Parser::defaults(Self) -> Values raise DocoptError
 pub fn Parser::keys(Self) -> Array[String]
-pub fn Parser::new(String) -> Self raise DocoptError
+pub fn Parser::new(String, limits? : Limits) -> Self raise DocoptError
 pub fn Parser::normalize(Self, Array[String], options_first? : Bool) -> Array[ArgumentToken] raise DocoptError
 pub fn Parser::options(Self) -> Array[OptionSpec]
 pub fn Parser::parse(Self, Array[String], options_first? : Bool) -> Values raise DocoptError

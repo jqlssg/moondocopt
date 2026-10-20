@@ -4,6 +4,7 @@ pub struct Parser {
   priv document : Document
   priv tree : Pattern
   priv specs : Array[OptionSpec]
+  priv limits : Limits
 }
 
 ///|
@@ -136,7 +137,14 @@ fn expand_shortcut(
 
 ///|
 /// Compile docopt Usage and Options. No argument parsing or process exits occur.
-pub fn Parser::new(help : String) -> Parser raise DocoptError {
+pub fn Parser::new(
+  help : String,
+  limits~ : Limits = Limits::default(),
+) -> Parser raise DocoptError {
+  limits.validate()
+  guard help.length() <= limits.document_units else {
+    raise Limit("help document too large")
+  }
   let document = Document::new(help)
   let specs = document.options()
   let tokens = bind_usage(document, specs)
@@ -145,7 +153,7 @@ pub fn Parser::new(help : String) -> Parser raise DocoptError {
   guard cursor.peek() == None else { raise Language("unexpected usage closer") }
   let explicit = Map([])
   collect_words(raw, explicit)
-  { document, specs, tree: expand_shortcut(raw, specs, explicit), }
+  { document, specs, limits, tree: expand_shortcut(raw, specs, explicit), }
 }
 
 ///|

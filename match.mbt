@@ -10,7 +10,9 @@ fn leaf_match(
   key : String,
   state : MatchState,
   defaults : Values,
-) -> MatchState? {
+  budget : MatchBudget,
+) -> MatchState? raise DocoptError {
+  budget.charge(state.left.length() + state.collected.length() + 1)
   let mut index = -1
   let mut value = Missing
   let option = key.has_prefix("-") && key != "-" && key != "--"
@@ -70,13 +72,15 @@ fn match_tree(
   tree : Pattern,
   state : MatchState,
   defaults : Values,
-) -> MatchState? {
+  budget : MatchBudget,
+) -> MatchState? raise DocoptError {
+  budget.charge(1)
   match tree {
-    Word(key) => leaf_match(key, state, defaults)
+    Word(key) => leaf_match(key, state, defaults, budget)
     Required(xs) => {
       let mut current = state
       for x in xs {
-        guard match_tree(x, current, defaults) is Some(next) else {
+        guard match_tree(x, current, defaults, budget) is Some(next) else {
           return None
         }
         current = next
@@ -86,7 +90,7 @@ fn match_tree(
     Optional(xs) => {
       let mut current = state
       for x in xs {
-        if match_tree(x, current, defaults) is Some(next) {
+        if match_tree(x, current, defaults, budget) is Some(next) {
           current = next
         }
       }
@@ -95,7 +99,7 @@ fn match_tree(
     Either(xs) => {
       let mut best : MatchState? = None
       for x in xs {
-        if match_tree(x, state, defaults) is Some(candidate) {
+        if match_tree(x, state, defaults, budget) is Some(candidate) {
           match best {
             None => best = Some(candidate)
             Some(previous) =>
@@ -110,7 +114,7 @@ fn match_tree(
     Repeat(x) => {
       let mut current = state
       let mut times = 0
-      while match_tree(x, current, defaults) is Some(next) {
+      while match_tree(x, current, defaults, budget) is Some(next) {
         times += 1
         let progressed = next.left.length() < current.left.length()
         current = next
@@ -145,7 +149,10 @@ fn Parser::parse_tokens(
 ) -> Values raise DocoptError {
   let defaults = self.defaults()
   let state = { left: input, collected: Map([]), }
-  guard match_tree(self.tree, state, defaults) is Some(matched) else {
+  guard match_tree(self.tree, state, defaults, {
+      remaining: self.limits.match_steps,
+    })
+    is Some(matched) else {
     raise Arguments("arguments do not match " + self.usage())
   }
   guard matched.left.is_empty() else {
