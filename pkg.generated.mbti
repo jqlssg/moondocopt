@@ -26,6 +26,7 @@ pub struct Document {
 pub fn Document::new(String) -> Self raise DocoptError
 pub fn Document::options(Self) -> Array[OptionSpec] raise DocoptError
 pub fn Document::options_sections(Self) -> Array[String]
+pub fn Document::pattern(Self) -> Pattern raise DocoptError
 pub fn Document::tokens(Self) -> Array[UsageToken] raise DocoptError
 
 pub struct OptionSpec {
@@ -36,6 +37,16 @@ pub struct OptionSpec {
 }
 pub fn OptionSpec::key(Self) -> String
 pub fn OptionSpec::parse(String) -> Self raise DocoptError
+
+pub enum Pattern {
+  Word(String)
+  Required(Array[Pattern])
+  Optional(Array[Pattern])
+  Either(Array[Pattern])
+  Repeat(Pattern)
+  Shortcut
+} derive(@debug.Debug)
+pub fn Pattern::to_repr(Self) -> @debug.Repr
 
 pub struct UsageToken {
   text : String
