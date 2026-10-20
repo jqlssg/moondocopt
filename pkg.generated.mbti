@@ -63,17 +63,29 @@ pub enum Outcome {
 } derive(@debug.Debug)
 pub fn Outcome::to_repr(Self) -> @debug.Repr
 
+pub struct ParameterInfo {
+  key : String
+  kind : String
+  repeated : Bool
+  aliases : Array[String]
+  default_value : Value
+}
+pub fn ParameterInfo::to_json(Self) -> Json
+
 pub struct Parser {
   // private fields
 }
 pub fn Parser::defaults(Self) -> Values raise DocoptError
+pub fn Parser::describe(Self) -> Json raise DocoptError
 pub fn Parser::keys(Self) -> Array[String]
 pub fn Parser::new(String, limits? : Limits) -> Self raise DocoptError
 pub fn Parser::normalize(Self, Array[String], options_first? : Bool) -> Array[ArgumentToken] raise DocoptError
 pub fn Parser::options(Self) -> Array[OptionSpec]
+pub fn Parser::parameters(Self) -> Array[ParameterInfo] raise DocoptError
 pub fn Parser::parse(Self, Array[String], options_first? : Bool) -> Values raise DocoptError
 pub fn Parser::program(Self) -> String
 pub fn Parser::run(Self, Array[String], help? : Bool, version? : String?, options_first? : Bool) -> Outcome raise DocoptError
+pub fn Parser::suggest(Self, String) -> Array[String] raise DocoptError
 pub fn Parser::usage(Self) -> String
 
 pub enum Pattern {
