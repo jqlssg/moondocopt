@@ -38,6 +38,15 @@ pub struct OptionSpec {
 pub fn OptionSpec::key(Self) -> String
 pub fn OptionSpec::parse(String) -> Self raise DocoptError
 
+pub struct Parser {
+  // private fields
+}
+pub fn Parser::keys(Self) -> Array[String]
+pub fn Parser::new(String) -> Self raise DocoptError
+pub fn Parser::options(Self) -> Array[OptionSpec]
+pub fn Parser::program(Self) -> String
+pub fn Parser::usage(Self) -> String
+
 pub enum Pattern {
   Word(String)
   Required(Array[Pattern])
