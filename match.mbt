@@ -135,8 +135,15 @@ pub fn Parser::parse(
   argv : Array[String],
   options_first~ : Bool = false,
 ) -> Values raise DocoptError {
+  self.parse_tokens(self.normalize(argv, options_first~))
+}
+
+///|
+fn Parser::parse_tokens(
+  self : Parser,
+  input : Array[ArgumentToken],
+) -> Values raise DocoptError {
   let defaults = self.defaults()
-  let input = self.normalize(argv, options_first~)
   let state = { left: input, collected: Map([]), }
   guard match_tree(self.tree, state, defaults) is Some(matched) else {
     raise Arguments("arguments do not match " + self.usage())

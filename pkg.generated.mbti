@@ -46,6 +46,13 @@ pub struct OptionSpec {
 pub fn OptionSpec::key(Self) -> String
 pub fn OptionSpec::parse(String) -> Self raise DocoptError
 
+pub enum Outcome {
+  Parsed(Values)
+  Help(String)
+  Version(String)
+} derive(@debug.Debug)
+pub fn Outcome::to_repr(Self) -> @debug.Repr
+
 pub struct Parser {
   // private fields
 }
@@ -56,6 +63,7 @@ pub fn Parser::normalize(Self, Array[String], options_first? : Bool) -> Array[Ar
 pub fn Parser::options(Self) -> Array[OptionSpec]
 pub fn Parser::parse(Self, Array[String], options_first? : Bool) -> Values raise DocoptError
 pub fn Parser::program(Self) -> String
+pub fn Parser::run(Self, Array[String], help? : Bool, version? : String?, options_first? : Bool) -> Outcome raise DocoptError
 pub fn Parser::usage(Self) -> String
 
 pub enum Pattern {
