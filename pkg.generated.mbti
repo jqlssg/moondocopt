@@ -54,6 +54,7 @@ pub fn Parser::keys(Self) -> Array[String]
 pub fn Parser::new(String) -> Self raise DocoptError
 pub fn Parser::normalize(Self, Array[String], options_first? : Bool) -> Array[ArgumentToken] raise DocoptError
 pub fn Parser::options(Self) -> Array[OptionSpec]
+pub fn Parser::parse(Self, Array[String], options_first? : Bool) -> Values raise DocoptError
 pub fn Parser::program(Self) -> String
 pub fn Parser::usage(Self) -> String
 
