@@ -6,6 +6,10 @@ import {
 }
 
 // Values
+pub fn join_command(Array[String]) -> String raise DocoptError
+
+pub fn quote_argument(String) -> String raise DocoptError
+
 pub fn split_command(String, comments? : Bool, max_words? : Int32) -> Array[String] raise DocoptError
 
 // Errors
