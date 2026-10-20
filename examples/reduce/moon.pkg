@@ -1,0 +1,6 @@
+import {
+  "jqlssg/moondocopt" @docopt,
+  "jqlssg/moondocopt/examples/cliargs",
+}
+
+pkgtype(kind: "executable")
