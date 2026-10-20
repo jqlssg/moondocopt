@@ -18,3 +18,15 @@ test "compile argv and work budgets report Limit rather than mismatch" {
   })
   assert_true((Ok(q.parse(["x"])) catch { e => Err(e) }) is Err(Limit(_)))
 }
+
+///|
+test "option shortcut expansion is bounded before large tree allocation" {
+  let help = "Usage: p [options] [options] [options] [options]\nOptions:\n" +
+    Array::makei(100, fn(i) { "  --flag\{i}  Flag\n" }).join("")
+  assert_true(
+    (Ok(Parser::new(help, limits={ ..Limits::default(), usage_tokens: 40, })) catch {
+      e => Err(e)
+    })
+    is Err(Limit(_)),
+  )
+}

@@ -63,6 +63,9 @@ fn sections(name : String, text : String) -> Array[String] {
 ///|
 /// Require exactly one Usage section and a program token.
 pub fn Document::new(text : String) -> Document raise DocoptError {
+  guard text.length() <= 1048576 else {
+    raise Limit("document exceeds hard safety ceiling")
+  }
   let usages = sections("usage:", text)
   guard usages.length() == 1 else {
     raise Language("expected exactly one Usage: section")

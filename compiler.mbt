@@ -124,20 +124,25 @@ fn expand_shortcut(
   tree : Pattern,
   specs : Array[OptionSpec],
   explicit : Map[String, Bool],
-) -> Pattern {
+  budget : MatchBudget,
+) -> Pattern raise DocoptError {
+  budget.charge(1)
   match tree {
-    Shortcut =>
+    Shortcut => {
+      budget.charge(specs.length())
       Optional(
         specs
         .filter(fn(s) { !explicit.contains(s.key()) })
         .map(fn(s) { Word(s.key()) }),
       )
+    }
     Required(xs) =>
-      Required(xs.map(fn(x) { expand_shortcut(x, specs, explicit) }))
+      Required(xs.map(x => expand_shortcut(x, specs, explicit, budget)))
     Optional(xs) =>
-      Optional(xs.map(fn(x) { expand_shortcut(x, specs, explicit) }))
-    Either(xs) => Either(xs.map(fn(x) { expand_shortcut(x, specs, explicit) }))
-    Repeat(x) => Repeat(expand_shortcut(x, specs, explicit))
+      Optional(xs.map(x => expand_shortcut(x, specs, explicit, budget)))
+    Either(xs) =>
+      Either(xs.map(x => expand_shortcut(x, specs, explicit, budget)))
+    Repeat(x) => Repeat(expand_shortcut(x, specs, explicit, budget))
     Word(_) => tree
   }
 }
@@ -160,7 +165,14 @@ pub fn Parser::new(
   guard cursor.peek() == None else { raise Language("unexpected usage closer") }
   let explicit = Map([])
   collect_words(raw, explicit)
-  { document, specs, limits, tree: expand_shortcut(raw, specs, explicit), }
+  {
+    document,
+    specs,
+    limits,
+    tree: expand_shortcut(raw, specs, explicit, {
+      remaining: limits.usage_tokens * 4,
+    }),
+  }
 }
 
 ///|
