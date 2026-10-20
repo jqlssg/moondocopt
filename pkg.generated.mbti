@@ -106,11 +106,17 @@ pub fn Value::to_repr(Self) -> @debug.Repr
 pub struct Values {
   // private fields
 } derive(@debug.Debug)
+pub fn Values::choice(Self, String, Array[String]) -> String raise DocoptError
+pub fn Values::count(Self, String) -> Int32 raise DocoptError
 pub fn Values::flag(Self, String) -> Bool raise DocoptError
 pub fn Values::get(Self, String) -> Value?
+pub fn Values::integer(Self, String, minimum? : Int32, maximum? : Int32) -> Int32 raise DocoptError
+pub fn Values::integers(Self, String) -> Array[Int32] raise DocoptError
 pub fn Values::keys(Self) -> Array[String]
 pub fn Values::new(Map[String, Value]) -> Self
+pub fn Values::require_text(Self, String) -> String raise DocoptError
 pub fn Values::text(Self, String) -> String? raise DocoptError
+pub fn Values::texts(Self, String) -> Array[String] raise DocoptError
 pub fn Values::to_json(Self) -> Json
 pub fn Values::to_repr(Self) -> @debug.Repr
 
