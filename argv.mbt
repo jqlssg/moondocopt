@@ -141,8 +141,9 @@ fn short_arguments(
   let out = []
   let mut i = 1
   while i < token.length() {
-    let key = "-" + token[i:i + 1].to_owned()
-    i += 1
+    let end = short_option_end(token, i)
+    let key = "-" + token[i:end].to_owned()
+    i = end
     let spec = match find_spec(specs, key) {
       Some(n) => specs[n]
       None => {

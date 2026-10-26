@@ -8,6 +8,18 @@ pub struct Parser {
 }
 
 ///|
+/// Short options are Unicode characters, not individual UTF-16 code units.
+fn short_option_end(text : String, start : Int32) -> Int32 {
+  if text[start].is_leading_surrogate() &&
+    start + 1 < text.length() &&
+    text[start + 1].is_trailing_surrogate() {
+    start + 2
+  } else {
+    start + 1
+  }
+}
+
+///|
 fn find_spec(
   specs : Array[OptionSpec],
   name : String,
@@ -67,8 +79,9 @@ fn bind_usage(
       let cluster_start = out.length()
       let mut j = 1
       while j < name.length() {
-        let key = "-" + name[j:j + 1].to_owned()
-        j += 1
+        let end = short_option_end(name, j)
+        let key = "-" + name[j:end].to_owned()
+        j = end
         let index = match find_spec(specs, key) {
           Some(n) => n
           None => {
@@ -160,6 +173,9 @@ pub fn Parser::new(
   let document = Document::new(help)
   let specs = document.options()
   let tokens = bind_usage(document, specs)
+  guard specs.length() <= limits.options else {
+    raise Limit("too many options")
+  }
   let cursor = { tokens, position: 0, }
   let raw = cursor.expression(0)
   guard cursor.peek() == None else { raise Language("unexpected usage closer") }

@@ -2,7 +2,7 @@
 
 **从帮助文档得到命令行解析器，不再维护第二份参数 schema。**
 
-MoonDocopt 是 [Python docopt 0.6.2](https://github.com/docopt/docopt) 的 MoonBit 移植/重写，模块为 `jqlssg/moondocopt@0.1.0`，MIT 许可。它编译 `Usage:` / `Options:`，然后把 `argv` 转成带类型的结果；不会打印帮助、退出进程或执行 shell。
+MoonDocopt 是 [Python docopt 0.6.2](https://github.com/docopt/docopt) 的 MoonBit 移植/重写，模块为 `jqlssg/moondocopt@0.1.1`，MIT 许可。它编译 `Usage:` / `Options:`，然后把 `argv` 转成带类型的结果；不会打印帮助、退出进程或执行 shell。
 
 ## 解决什么问题
 
@@ -29,7 +29,7 @@ MoonDocopt 是 [Python docopt 0.6.2](https://github.com/docopt/docopt) 的 MoonB
 在自己的 MoonBit 模块中：
 
 ```sh
-moon add jqlssg/moondocopt@0.1.0
+moon add jqlssg/moondocopt@0.1.1
 ```
 
 在使用它的包目录创建 `moon.pkg`：

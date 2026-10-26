@@ -30,3 +30,27 @@ test "option shortcut expansion is bounded before large tree allocation" {
     is Err(Limit(_)),
   )
 }
+
+///|
+test "configured option limit rejects declared and implicit options at the boundary" {
+  let declared = "Usage: p [options]\nOptions:\n  --one  One\n  --two  Two"
+  assert_true(
+    (Ok(Parser::new(declared, limits={ ..Limits::default(), options: 1, })) catch {
+      e => Err(e)
+    })
+    is Err(Limit(_)),
+  )
+  let implicit = "Usage: p --one --two"
+  assert_true(
+    (Ok(Parser::new(implicit, limits={ ..Limits::default(), options: 1, })) catch {
+      e => Err(e)
+    })
+    is Err(Limit(_)),
+  )
+  assert_eq(
+    Parser::new(declared, limits={ ..Limits::default(), options: 2, })
+    .parse(["--one"])
+    .flag("--one"),
+    true,
+  )
+}

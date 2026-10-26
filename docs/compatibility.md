@@ -1,4 +1,4 @@
-# 兼容范围（0.1.0）
+# 兼容范围（0.1.1）
 
 基线是 docopt Python **0.6.2**，不是 docopt-ng、clap 或所有 getopt 方言。上游 MIT 源码、175 条 fixtures 和出处固定在 `tests/upstream`。`scripts/generate_oracles.py` 另生成 seed=20261020 的 1648 条差分：12 个语法、有效向量和随机非法 argv、options_first 的两种取值。测试断言的是结构化结果或 arguments 错误，不比较 Python 的退出文本。
 
